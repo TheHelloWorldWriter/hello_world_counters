@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 /// Overflow menu items enumeration.
 enum OverflowMenuItem { reset, settings, rate, help }
 
+enum CounterChange { increment, decrement, reset }
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -31,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _initCounters() async {
     await SettingsProvider.getCounters(_counters);
+    _currentColor = await SettingsProvider.getCurrentColor();
     setState(() {});
   }
 
@@ -40,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             _currentColor = color;
           });
+          SettingsProvider.setCurrentColor(_currentColor);
 
           Navigator.pop(context);
         },
@@ -68,9 +72,19 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _incrementCounter() {
+  void _changeCounter(CounterChange change) {
     setState(() {
-      _counters[_currentColor]++;
+      switch (change) {
+        case CounterChange.increment:
+          _counters[_currentColor] += 1;
+          break;
+        case CounterChange.decrement:
+          _counters[_currentColor] -= 1;
+          break;
+        case CounterChange.reset:
+          _counters[_currentColor] = 0;
+          break;
+      }
     });
     SettingsProvider.setCounter(_currentColor, _counters[_currentColor]);
   }
@@ -81,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-//        backgroundColor: AppColors.counterColorValues[_currentColor],
 //        title: Text(AppStrings.appName),
         title: Text(AppStrings.counterDrawerTitles[_currentColor]),
         actions: <Widget>[
@@ -133,10 +146,22 @@ class _HomeScreenState extends State<HomeScreen> {
               .copyWith(color: AppColors.counterColorValues[_currentColor].contrastOf()),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: AppStrings.incrementButtonTooltip,
-        child: Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            backgroundColor: Colors.white54,
+            onPressed: () => _changeCounter(CounterChange.decrement),
+            tooltip: AppStrings.decrementButtonTooltip,
+            child: const Icon(Icons.remove),
+          ),
+          SizedBox(height: 16.0),
+          FloatingActionButton(
+            onPressed: () => _changeCounter(CounterChange.increment),
+            tooltip: AppStrings.incrementButtonTooltip,
+            child: const Icon(Icons.add),
+          )
+        ],
       ),
     );
   }

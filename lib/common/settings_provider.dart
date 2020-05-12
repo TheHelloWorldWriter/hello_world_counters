@@ -12,6 +12,18 @@ class SettingsProvider {
 //    });
 //  }
 
+
+  static Future<CounterColors> getCurrentColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int colorIndex = prefs.getInt(AppStrings.currentColorKey) ?? 0;
+    return CounterColors.values[colorIndex];
+  }
+
+  static Future<void> setCurrentColor(CounterColors value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(AppStrings.currentColorKey, value.index);
+  }
+
   static Future<void> setCounter(CounterColors color, int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt(AppStrings.counterKeys[color], value);

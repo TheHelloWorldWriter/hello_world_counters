@@ -10,6 +10,7 @@ class AppStrings {
   static const String helpMenuItem = 'Help';
 
   static const String incrementButtonTooltip = 'Increment';
+  static const String decrementButtonTooltip = 'Decrement';
 
   static const Map<CounterColors, String> counterDrawerTitles = const {
     CounterColors.White: 'White Counter',
@@ -24,6 +25,8 @@ class AppStrings {
     CounterColors.Orange: 'Orange Counter',
     CounterColors.Purple: 'Purple Counter',
   };
+
+  static const String currentColorKey = 'current_color';
 
   static const Map<CounterColors, String> counterKeys = const {
     CounterColors.White: 'white_counter',
