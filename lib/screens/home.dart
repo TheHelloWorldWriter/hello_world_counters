@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// Overflow menu items enumeration.
 enum OverflowMenuItem { reset, settings, rate, help }
 
-enum CounterChange { increment, decrement, reset }
+enum CounterChange { increment, decrement, reset, undoReset }
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,10 +15,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  /// The AppBar's action needs this key to find its own Scaffold.
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   CounterColors _currentColor = CounterColors.White;
 
   /// The current counter values for each color
   Map<CounterColors, int> _counters = Map<CounterColors, int>();
+
+  int _undoableCounterValue = 0;
 
   _HomeScreenState() {
     // Init counters to 0
@@ -53,9 +58,36 @@ class _HomeScreenState extends State<HomeScreen> {
   void popupMenuSelection(OverflowMenuItem item) {
     switch (item) {
       case OverflowMenuItem.reset:
-//        setState(() {
-//          _listItemStyle.reset();
-//        });
+//        showDialog<void>(context: context,
+//          builder: (context) => AlertDialog(
+//            title: Text('Reset counter?'),
+//            actions: <Widget>[
+//              FlatButton(
+//                color: Colors.red,
+//                child: Text('Yes'),
+//                onPressed: () {
+//                  _changeCounter(CounterChange.reset);
+//                },
+//              ),
+//              FlatButton(
+//                onPressed: () {  },
+//                child: const Text('No', style: TextStyle(color: Colors.black),),
+//              )
+//            ],
+//          )
+//        );
+
+        _changeCounter(CounterChange.reset);
+        final snackBar = SnackBar(
+          content: Text('Counter has been reset'),
+          action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              _changeCounter(CounterChange.undoReset);
+            },
+          ),
+        );
+        _scaffoldKey.currentState.showSnackBar(snackBar);
         break;
       case OverflowMenuItem.settings:
         // Navigate to the Settings screen, and load settings and refresh on return
@@ -82,7 +114,14 @@ class _HomeScreenState extends State<HomeScreen> {
           _counters[_currentColor] -= 1;
           break;
         case CounterChange.reset:
+          _undoableCounterValue = _counters[_currentColor];
           _counters[_currentColor] = 0;
+          break;
+        case CounterChange.undoReset:
+          if (_undoableCounterValue != 0) {
+            _counters[_currentColor] = _undoableCounterValue;
+            _undoableCounterValue = 0;
+          }
           break;
       }
     });
@@ -94,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final MaterialLocalizations localizations = MaterialLocalizations.of(context);
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
 //        title: Text(AppStrings.appName),
         title: Text(AppStrings.counterDrawerTitles[_currentColor]),
@@ -108,6 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
               PopupMenuItem(
                 value: OverflowMenuItem.reset,
                 child: Text(AppStrings.resetMenuItem),
+                enabled: _counters[_currentColor] != 0,
               ),
               PopupMenuItem(
                 value: OverflowMenuItem.settings,

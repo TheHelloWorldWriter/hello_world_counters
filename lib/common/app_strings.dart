@@ -4,7 +4,7 @@ class AppStrings {
   static const String appName = 'Counters With Color Names';
   static const String drawerTitle = 'Counters With Color Names';
 
-  static const String resetMenuItem = 'Reset style';
+  static const String resetMenuItem = 'Reset counter';
   static const String settingsMenuItem = 'Settings';
   static const String rateAppMenuItem = 'Rate app';
   static const String helpMenuItem = 'Help';
