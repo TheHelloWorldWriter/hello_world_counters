@@ -2,6 +2,8 @@ import 'package:counterswithcolornames/common/app_colors.dart';
 import 'package:counterswithcolornames/common/app_strings.dart';
 import 'package:counterswithcolornames/common/settings_provider.dart';
 import 'package:counterswithcolornames/utils/color_utils.dart';
+import 'package:counterswithcolornames/widgets/list_tile_selected_box.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Overflow menu items enumeration.
@@ -42,52 +44,78 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
-  Widget drawerListTile(CounterColors color) => ListTile(
-        title: Text(AppStrings.counterDrawerTitles[color]),
-        onTap: () {
-          setState(() {
-            _currentColor = color;
-          });
-          SettingsProvider.setCurrentColor(_currentColor);
+  Widget _colorAvatar(Color color, bool addBorder) {
+    Widget colorAvatar = CircleAvatar(
+      backgroundColor: color,
+    );
+    return addBorder
+        ? CircleAvatar(
+            radius: 21,
+            backgroundColor: Colors.black,
+            child: colorAvatar,
+          )
+        : colorAvatar;
+  }
 
-          Navigator.pop(context);
-        },
+  Widget drawerListTile(CounterColors color) => ListTileSelectedBox(
+        color: AppColors.counterColorValues[color].withOpacity(0.1),
+        listTile: ListTile(
+          selected: color == _currentColor,
+          leading: _colorAvatar(AppColors.counterColorValues[color], color == CounterColors.White),
+//          CircleAvatar(
+//            backgroundColor: AppColors.counterColorValues[color],
+//          ),
+          title: Text(
+            AppStrings.counterDrawerTitles[color],
+            style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
+          ),
+          onTap: () {
+            setState(() {
+              _currentColor = color;
+            });
+            SettingsProvider.setCurrentColor(_currentColor);
+
+            Navigator.pop(context);
+          },
+        ),
       );
 
   /// Performs the tasks of the overflow menu items.
   void popupMenuSelection(OverflowMenuItem item) {
     switch (item) {
       case OverflowMenuItem.reset:
-//        showDialog<void>(context: context,
-//          builder: (context) => AlertDialog(
-//            title: Text('Reset counter?'),
-//            actions: <Widget>[
-//              FlatButton(
-//                color: Colors.red,
-//                child: Text('Yes'),
-//                onPressed: () {
-//                  _changeCounter(CounterChange.reset);
-//                },
-//              ),
-//              FlatButton(
-//                onPressed: () {  },
-//                child: const Text('No', style: TextStyle(color: Colors.black),),
-//              )
-//            ],
-//          )
-//        );
+        showDialog<void>(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text('Reset counter?'),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Yes'),
+                      onPressed: () {
+                        _changeCounter(CounterChange.reset);
+                      },
+                    ),
+                    FlatButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'No',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    )
+                  ],
+                ));
 
-        _changeCounter(CounterChange.reset);
-        final snackBar = SnackBar(
-          content: Text('Counter has been reset'),
-          action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () {
-              _changeCounter(CounterChange.undoReset);
-            },
-          ),
-        );
-        _scaffoldKey.currentState.showSnackBar(snackBar);
+//        _changeCounter(CounterChange.reset);
+//        final snackBar = SnackBar(
+//          content: Text('Counter has been reset'),
+//          action: SnackBarAction(
+//            label: 'Undo',
+//            onPressed: () {
+//              _changeCounter(CounterChange.undoReset);
+//            },
+//          ),
+//        );
+//        _scaffoldKey.currentState.showSnackBar(snackBar);
         break;
       case OverflowMenuItem.settings:
         // Navigate to the Settings screen, and load settings and refresh on return
@@ -169,8 +197,19 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            DrawerHeader(
-              child: Text(AppStrings.drawerTitle),
+//            UserAccountsDrawerHeader(
+//              accountName: Text(AppStrings.drawerTitle),
+//              accountEmail: Text(AppStrings.drawerTitle),
+//            ),
+
+            SizedBox(
+              height: kToolbarHeight + 8.0,
+              child: DrawerHeader(
+                child: Text(
+                  AppStrings.drawerTitle,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
             ),
             ...CounterColors.values.map(drawerListTile),
           ],

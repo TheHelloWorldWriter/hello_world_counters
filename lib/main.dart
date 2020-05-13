@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
 //        primarySwatch: Colors.blue,
         primarySwatch: Colors.white.createMaterialColor(),
+//        primarySwatch: Colors.black.createMaterialColor(),
+//      primarySwatch: Colors.grey,
+//        primaryColor: Colors.black,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomeScreen(),
