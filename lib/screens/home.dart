@@ -2,6 +2,7 @@ import 'package:counterswithcolornames/common/app_colors.dart';
 import 'package:counterswithcolornames/common/app_strings.dart';
 import 'package:counterswithcolornames/common/settings_provider.dart';
 import 'package:counterswithcolornames/utils/color_utils.dart';
+import 'package:counterswithcolornames/widgets/color_filled_circle.dart';
 import 'package:counterswithcolornames/widgets/list_tile_selected_box.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,30 +45,18 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
-  Widget _colorAvatar(Color color, bool addBorder) {
-    Widget colorAvatar = CircleAvatar(
-      backgroundColor: color,
-    );
-    return addBorder
-        ? CircleAvatar(
-            radius: 21,
-            backgroundColor: Colors.black,
-            child: colorAvatar,
-          )
-        : colorAvatar;
-  }
-
   Widget drawerListTile(CounterColors color) => ListTileSelectedBox(
         color: AppColors.counterColorValues[color].withOpacity(0.1),
         listTile: ListTile(
           selected: color == _currentColor,
-          leading: _colorAvatar(AppColors.counterColorValues[color], color == CounterColors.White),
-//          CircleAvatar(
-//            backgroundColor: AppColors.counterColorValues[color],
-//          ),
+          leading: ColorFilledCircle(
+            color: AppColors.counterColorValues[color],
+            border: color == CounterColors.White ? Border.all() : null,
+          ),
           title: Text(
             AppStrings.counterDrawerTitles[color],
-            style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
+            style:
+                TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
           ),
           onTap: () {
             setState(() {
@@ -158,7 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations =
+        MaterialLocalizations.of(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -220,10 +210,8 @@ class _HomeScreenState extends State<HomeScreen> {
         color: AppColors.counterColorValues[_currentColor],
         child: Text(
           localizations.formatDecimal(_counters[_currentColor]),
-          style: Theme.of(context)
-              .textTheme
-              .headline1
-              .copyWith(color: AppColors.counterColorValues[_currentColor].contrastOf()),
+          style: Theme.of(context).textTheme.headline1.copyWith(
+              color: AppColors.counterColorValues[_currentColor].contrastOf()),
         ),
       ),
       floatingActionButton: Column(
