@@ -29,8 +29,7 @@ class ColorListTile extends StatelessWidget {
     return Material(
       color: selected ? Colors.black12 : null,
       child: ListTile(
-
-//      selected: color == _currentColor,
+        selected: selected,
         leading: ColorFilledCircle(
           color: color,
           border: color == Colors.white ? Border.all() : null,

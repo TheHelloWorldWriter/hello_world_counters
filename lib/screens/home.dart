@@ -2,16 +2,14 @@ import 'package:counterswithcolornames/common/app_colors.dart';
 import 'package:counterswithcolornames/common/app_strings.dart';
 import 'package:counterswithcolornames/common/settings_provider.dart';
 import 'package:counterswithcolornames/utils/color_utils.dart';
-import 'package:counterswithcolornames/widgets/color_filled_circle.dart';
+import 'package:counterswithcolornames/utils/ui_utils.dart';
 import 'package:counterswithcolornames/widgets/color_list_tile.dart';
-import 'package:counterswithcolornames/widgets/list_tile_selected_box.dart';
+import 'package:counterswithcolornames/widgets/slim_drawer_header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// Overflow menu items enumeration.
-enum OverflowMenuItem { reset, share, rate, help }
-
-enum CounterChange { increment, decrement, reset }
+enum MenuAction { reset, share, rate, help }
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -22,14 +20,14 @@ class _HomeScreenState extends State<HomeScreen> {
   /// The AppBar's action needs this key to find its own Scaffold.
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  CounterColors _currentColor = CounterColors.White;
+  BasicColors _currentBasicColor = BasicColors.white;
 
   /// The current counter values for each color
-  Map<CounterColors, int> _counters = Map<CounterColors, int>();
+  Map<BasicColors, int> _counters = Map<BasicColors, int>();
 
   _HomeScreenState() {
     // Init counters to 0
-    CounterColors.values.forEach((color) => _counters[color] = 0);
+    BasicColors.values.forEach((color) => _counters[color] = 0);
   }
 
   @override
@@ -40,116 +38,42 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _initCounters() async {
     await SettingsProvider.getCounters(_counters);
-    _currentColor = await SettingsProvider.getCurrentColor();
+    _currentBasicColor = await SettingsProvider.getCurrentColor();
     setState(() {});
   }
 
-  Widget drawerListTile2(CounterColors color) => ListTileSelectedBox(
-        color: AppColors.counterColorValues[color].withOpacity(0.1),
-//        color: AppColors.counterColorValues[color].withOpacity(0.2),
-//        color: color == CounterColors.White
-//            ? Colors.black12
-//            : AppColors.counterColorValues[color].withOpacity(0.1),
-        listTile: ListTile(
-          selected: color == _currentColor,
-          leading: ColorFilledCircle(
-            color: AppColors.counterColorValues[color],
-            border: color == CounterColors.White ? Border.all() : null,
-          ),
-          title: Text(
-            AppStrings.counterDrawerTitles[color],
-            style: TextStyle(
-              color: Theme.of(context).textTheme.bodyText1.color,
-              fontWeight: color == _currentColor ? FontWeight.w900 : null,
-            ),
-          ),
-          onTap: () {
-            setState(() {
-              _currentColor = color;
-            });
-            SettingsProvider.setCurrentColor(_currentColor);
+  Widget _drawerListTile(BasicColors color) {
+    return ColorListTile(
+      color: AppColors.basicColorValues[color],
+      titleData: AppStrings.counterDrawerTitles[color],
+      selected: color == _currentBasicColor,
+      onTap: () {
+        setState(() {
+          _currentBasicColor = color;
+        });
+        SettingsProvider.setCurrentColor(_currentBasicColor);
 
-            Navigator.pop(context);
-          },
-        ),
-      );
-
-  Widget drawerListTile3(CounterColors color) => ListTile(
-
-        selected: color == _currentColor,
-        leading: ColorFilledCircle(
-          color: AppColors.counterColorValues[color],
-          border: color == CounterColors.White ? Border.all() : null,
-        ),
-        title: Text(
-          AppStrings.counterDrawerTitles[color],
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1.color,
-            fontWeight: color == _currentColor ? FontWeight.w900 : null,
-            fontSize: color == _currentColor
-                ? Theme.of(context).textTheme.subtitle1.fontSize
-                : Theme.of(context).textTheme.bodyText1.fontSize,
-          ),
-        ),
-        onTap: () {
-          setState(() {
-            _currentColor = color;
-          });
-          SettingsProvider.setCurrentColor(_currentColor);
-
-          Navigator.pop(context);
-        },
-      );
-
-  Widget drawerListTile(CounterColors color) => ColorListTile(
-    color: AppColors.counterColorValues[color],
-    titleData: AppStrings.counterDrawerTitles[color],
-    selected: color == _currentColor,
-    onTap: () {
-      setState(() {
-        _currentColor = color;
-      });
-      SettingsProvider.setCurrentColor(_currentColor);
-
-      Navigator.pop(context);
-    },
-  );
+        Navigator.pop(context);
+      },
+    );
+  }
 
   /// Performs the tasks of the overflow menu items.
-  void popupMenuSelection(OverflowMenuItem item) {
+  void popupMenuSelection(MenuAction item) {
     switch (item) {
-      case OverflowMenuItem.reset:
-        showDialog<void>(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: Text('Reset counter?'),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Yes'),
-                      onPressed: () {
-//                        _changeCounter(CounterChange.reset);
-                        _changeCounter((value) => 0);
-                      },
-                    ),
-                    FlatButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'No',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    )
-                  ],
-                ));
+      case MenuAction.reset:
+        // Reset the counter after asking for confirmation
+        showYesNoDialog(context, AppStrings.resetConfirm, () => _changeCounter((value) => 0));
         break;
-      case OverflowMenuItem.share:
+      case MenuAction.share:
         // Navigate to the Settings screen, and load settings and refresh on return
 //        loadSettingsScreen();
         break;
-      case OverflowMenuItem.rate:
+      case MenuAction.rate:
         // Launch the Google Play Store page to allow the user to rate the app
 //        launchUrl(_scaffoldKey.currentState, Strings.rateAppURL);
         break;
-      case OverflowMenuItem.help:
+      case MenuAction.help:
         // Launch the app online help url
 //        launchUrl(_scaffoldKey.currentState, Strings.helpURL);
         break;
@@ -163,78 +87,42 @@ class _HomeScreenState extends State<HomeScreen> {
   /// increment or reset the counter.
   void _changeCounter(Function(int) change) {
     setState(() {
-      _counters[_currentColor] = change(_counters[_currentColor]);
+      _counters[_currentBasicColor] = change(_counters[_currentBasicColor]);
     });
-    SettingsProvider.setCounter(_currentColor, _counters[_currentColor]);
+    SettingsProvider.setCounter(_currentBasicColor, _counters[_currentBasicColor]);
   }
 
   @override
   Widget build(BuildContext context) {
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-//        backgroundColor: AppColors.counterColorValues[_currentColor],
-//        title: Text(AppStrings.appName),
-        title: Text(AppStrings.counterDrawerTitles[_currentColor]),
+        title: Text(AppStrings.counterDrawerTitles[_currentBasicColor]),
         actions: <Widget>[
-//          IconButton(
-//            icon: Icon(Icons.minimize),
-//            onPressed: () {},
-//          ),
-          PopupMenuButton<OverflowMenuItem>(
+          PopupMenuButton<MenuAction>(
             onSelected: popupMenuSelection,
-            itemBuilder: (_) => [
-              PopupMenuItem(
-                value: OverflowMenuItem.reset,
-                child: const Text(AppStrings.resetMenuItem),
-                enabled: _counters[_currentColor] != 0,
-              ),
-              const PopupMenuItem(
-                value: OverflowMenuItem.share,
-                child: const Text(AppStrings.shareMenuItem),
-              ),
-              const PopupMenuItem(
-                value: OverflowMenuItem.rate,
-                child: const Text(AppStrings.rateAppMenuItem),
-              ),
-              const PopupMenuItem(
-                value: OverflowMenuItem.help,
-                child: const Text(AppStrings.helpMenuItem),
-              ),
-            ],
+            itemBuilder: _buildMenuItems,
           ),
         ],
       ),
       drawer: Drawer(
-
         child: ListView(
-//          padding: EdgeInsets.symmetric(
-//            horizontal: 16.0,
-//          ),
           children: <Widget>[
-            SizedBox(
-              height: kToolbarHeight + 8.0,
-              child: DrawerHeader(
-                child: Text(
-                  AppStrings.drawerTitle,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-            ),
-            ...CounterColors.values.map(drawerListTile),
+            SlimDrawerHeader(title: AppStrings.drawerTitle),
+            ...BasicColors.values.map(_drawerListTile),
           ],
         ),
       ),
       body: Container(
         alignment: Alignment.center,
-        color: AppColors.counterColorValues[_currentColor],
+        color: AppColors.basicColorValues[_currentBasicColor],
         child: Text(
-          localizations.formatDecimal(_counters[_currentColor]),
+          localizations.formatDecimal(_counters[_currentBasicColor]),
           style: Theme.of(context).textTheme.headline1.copyWith(
-              color: AppColors.counterColorValues[_currentColor].contrastOf()),
+                color: AppColors.basicColorValues[_currentBasicColor].contrastOf(),
+              ),
         ),
       ),
       floatingActionButton: Column(
@@ -243,17 +131,29 @@ class _HomeScreenState extends State<HomeScreen> {
           FloatingActionButton(
             backgroundColor: Colors.white54,
             onPressed: () => _changeCounter((value) => value - 1),
-            tooltip: AppStrings.decrementButtonTooltip,
+            tooltip: AppStrings.decrementTooltip,
             child: const Icon(Icons.remove),
           ),
           const SizedBox(height: 16.0),
           FloatingActionButton(
             onPressed: () => _changeCounter((value) => value + 1),
-            tooltip: AppStrings.incrementButtonTooltip,
+            tooltip: AppStrings.incrementTooltip,
             child: const Icon(Icons.add),
           )
         ],
       ),
     );
+  }
+
+  List<PopupMenuItem<MenuAction>> _buildMenuItems(BuildContext context) {
+    return MenuAction.values
+        .map(
+          (item) => PopupMenuItem<MenuAction>(
+            value: item,
+            child: Text(AppStrings.menuActions[item]),
+            enabled: !(item == MenuAction.reset && _counters[_currentBasicColor] == 0),
+          ),
+        )
+        .toList();
   }
 }
