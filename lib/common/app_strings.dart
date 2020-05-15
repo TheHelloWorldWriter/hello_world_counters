@@ -21,7 +21,7 @@ class AppStrings {
   static const String incrementTooltip = 'Increment';
   static const String decrementTooltip = 'Decrement';
 
-  static const Map<BasicColors, String> counterDrawerTitles = const {
+  static const Map<BasicColors, String> counterTitles = const {
     BasicColors.white: 'White Counter',
     BasicColors.black: 'Black Counter',
     BasicColors.grey: 'Grey Counter',
@@ -52,4 +52,11 @@ class AppStrings {
   };
 
   static const String resetConfirm = 'Reset counter to zero?';
+
+  static const String shareSubject = 'Your new PIN';
+
+  static const String rateAppURL =
+      'https://play.google.com/store/apps/details?id=world.helloing.counterswithcolornames';
+
+  static const String helpURL = 'https://helloing.world/counterswithcolornames/';
 }

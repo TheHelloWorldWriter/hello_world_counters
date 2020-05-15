@@ -3,10 +3,11 @@ import 'package:counterswithcolornames/common/app_strings.dart';
 import 'package:counterswithcolornames/common/settings_provider.dart';
 import 'package:counterswithcolornames/utils/color_utils.dart';
 import 'package:counterswithcolornames/utils/ui_utils.dart';
+import 'package:counterswithcolornames/utils/utils.dart';
 import 'package:counterswithcolornames/widgets/color_list_tile.dart';
 import 'package:counterswithcolornames/widgets/slim_drawer_header.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 /// Overflow menu items enumeration.
 enum MenuAction { reset, share, rate, help }
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _drawerListTile(BasicColors color) {
     return ColorListTile(
       color: AppColors.basicColorValues[color],
-      titleData: AppStrings.counterDrawerTitles[color],
+      titleData: AppStrings.counterTitles[color],
       selected: color == _currentBasicColor,
       onTap: () {
         setState(() {
@@ -66,16 +67,18 @@ class _HomeScreenState extends State<HomeScreen> {
         showYesNoDialog(context, AppStrings.resetConfirm, () => _changeCounter((value) => 0));
         break;
       case MenuAction.share:
-        // Navigate to the Settings screen, and load settings and refresh on return
-//        loadSettingsScreen();
+        Share.share(
+            'Your ${AppStrings.counterTitles[_currentBasicColor]} is ${_counters[_currentBasicColor]}',
+//            subject: Strings.shareSubject);
+        );
         break;
       case MenuAction.rate:
         // Launch the Google Play Store page to allow the user to rate the app
-//        launchUrl(_scaffoldKey.currentState, Strings.rateAppURL);
+        launchUrl(_scaffoldKey.currentState, AppStrings.rateAppURL);
         break;
       case MenuAction.help:
         // Launch the app online help url
-//        launchUrl(_scaffoldKey.currentState, Strings.helpURL);
+        launchUrl(_scaffoldKey.currentState, AppStrings.helpURL);
         break;
     }
   }
@@ -99,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(AppStrings.counterDrawerTitles[_currentBasicColor]),
+        title: Text(AppStrings.counterTitles[_currentBasicColor]),
         actions: <Widget>[
           PopupMenuButton<MenuAction>(
             onSelected: popupMenuSelection,
