@@ -18,24 +18,47 @@ class ListTileSelectedBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    return Padding(
+    return Container(
       padding: padding ?? const EdgeInsets.only(right: 8),
-      child: ClipRRect(
-        borderRadius: borderRadius ??
-            const BorderRadius.horizontal(
-              right: Radius.circular(1000),
-            ),
-        // Needed for ripple effect clipping
-        child: Material(
-          type: MaterialType.transparency,
-          child: ColoredBox(
-            color: listTile.selected
-                ? color ?? colorScheme.primary.withOpacity(0.1)
-                : Colors.transparent,
-            child: listTile,
-          ),
-        ),
+      child: Container(
+        decoration: listTile.selected
+            ? BoxDecoration(
+//                border: Border.all(),
+                border: Border.all(
+                  color: Colors.black12,
+                ),
+                borderRadius: const BorderRadius.horizontal(
+                  right: Radius.circular(1000),
+                ),
+              )
+            : null,
+        child: listTile,
       ),
     );
   }
+
+//  @override
+//  Widget build(BuildContext context) {
+//    final theme = Theme.of(context);
+//    final colorScheme = theme.colorScheme;
+//    return Padding(
+//      padding: padding ?? const EdgeInsets.only(right: 8),
+//      child: ClipRRect(
+//        borderRadius: borderRadius ??
+//            const BorderRadius.horizontal(
+//              right: Radius.circular(1000),
+//            ),
+//        // Needed for ripple effect clipping
+//        child: Material(
+//          type: MaterialType.transparency,
+//          child: ColoredBox(
+//            color: listTile.selected
+//                ? color ?? colorScheme.primary.withOpacity(0.1)
+//                : Colors.transparent,
+//            child: listTile,
+//          ),
+//        ),
+//      ),
+//    );
+//  }
 }

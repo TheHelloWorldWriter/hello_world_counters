@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
 //        primarySwatch: Colors.blue,
         primarySwatch: Colors.white.createMaterialColor(),
+//canvasColor: Color(0xFFA0A0A0),
+//canvasColor: Colors.grey[300],
+//primaryColor: Colors.black,
 //        primarySwatch: Colors.black.createMaterialColor(),
 //      primarySwatch: Colors.grey,
 //        primaryColor: Colors.black,
