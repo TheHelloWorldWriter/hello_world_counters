@@ -35,7 +35,7 @@ class AppStrings {
     CounterType.purple: 'Purple Counter',
   };
 
-  static const String currentColorKey = 'current_color';
+  static const String currentCounterKey = 'current_color';
 
   static const Map<CounterType, String> counterKeys = const {
     CounterType.white: 'white_counter',
@@ -52,6 +52,8 @@ class AppStrings {
   };
 
   static const String resetConfirm = 'Reset counter to zero?';
+
+  static String shareText(String name, String value) => 'Your $name is $value';
 
   static const String shareSubject = 'Your new PIN';
 

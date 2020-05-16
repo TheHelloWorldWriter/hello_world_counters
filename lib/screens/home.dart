@@ -4,8 +4,7 @@ import 'package:counterswithcolornames/common/settings_provider.dart';
 import 'package:counterswithcolornames/utils/color_utils.dart';
 import 'package:counterswithcolornames/utils/ui_utils.dart';
 import 'package:counterswithcolornames/utils/utils.dart';
-import 'package:counterswithcolornames/widgets/color_list_tile.dart';
-import 'package:counterswithcolornames/widgets/slim_drawer_header.dart';
+import 'package:counterswithcolornames/widgets/counters_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
@@ -39,11 +38,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _initCounters() async {
     await SettingsProvider.getCounters(_counters);
-    _currentCounter = await SettingsProvider.getCurrentColor();
+    _currentCounter = await SettingsProvider.getCurrentCounterType();
     setState(() {});
   }
 
-  /// Performs the tasks of the overflow menu items.
+  void _onDrawerCounterTap(CounterType counterType) {
+    setState(() {
+      _currentCounter = counterType;
+    });
+    SettingsProvider.setCurrentCounterType(_currentCounter);
+
+    Navigator.pop(context);
+  }
+
+  /// Performs the tasks of the popup menu items.
   void popupMenuSelection(MenuAction item) {
     switch (item) {
       case MenuAction.reset:
@@ -52,6 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case MenuAction.share:
         Share.share(
+//            AppStrings.shareText(AppStrings.counterNames[_currentCounter], _counters[_currentCounter)
+
           'Your ${AppStrings.counterNames[_currentCounter]} is ${_counters[_currentCounter]}',
 //            subject: Strings.shareSubject);
         );
@@ -126,30 +136,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Builds the main drawer that lets the user switch between color counters.
   Widget _buildDrawer() {
-    return Drawer(
-      child: ListView(
-        children: <Widget>[
-          SlimDrawerHeader(title: AppStrings.drawerTitle),
-          ...CounterType.values.map(_drawerListTile),
-        ],
-      ),
-    );
-  }
-
-  /// Builds a drawer list tile for the specified color counter.
-  Widget _drawerListTile(CounterType color) {
-    return ColorListTile(
-      color: AppColors.basicColorValues[color],
-      titleData: AppStrings.counterNames[color],
-      selected: color == _currentCounter,
-      onTap: () {
-        setState(() {
-          _currentCounter = color;
-        });
-        SettingsProvider.setCurrentColor(_currentCounter);
-
-        Navigator.pop(context);
-      },
+    return CountersDrawer(
+      title: AppStrings.drawerTitle,
+      currentCounter: _currentCounter,
+      onSelected: _onDrawerCounterTap,
     );
   }
 

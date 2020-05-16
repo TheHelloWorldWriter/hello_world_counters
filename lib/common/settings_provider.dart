@@ -4,36 +4,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app_commons.dart';
 
 class SettingsProvider {
-  /// Saves the gestures counter values to persistent storage.
-//  static Future<void> setCounters(Map<CounterColors, int> counters) async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
-//    counters.forEach((key, value) async {
-//      await prefs.setInt(AppStrings.counterKeys[key], value);
-//    });
-//  }
-
-
-  static Future<CounterType> getCurrentColor() async {
+  /// Reads the current counter type from persistent storage.
+  static Future<CounterType> getCurrentCounterType() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final int colorIndex = prefs.getInt(AppStrings.currentColorKey) ?? 0;
-    return CounterType.values[colorIndex];
+    final int counterIndex = prefs.getInt(AppStrings.currentCounterKey) ?? 0;
+    return CounterType.values[counterIndex];
   }
 
-  static Future<void> setCurrentColor(CounterType value) async {
+  /// Saves the current counter type to persistent storage.
+  static Future<void> setCurrentCounterType(CounterType value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(AppStrings.currentColorKey, value.index);
+    await prefs.setInt(AppStrings.currentCounterKey, value.index);
   }
 
-  static Future<void> setCounter(CounterType color, int value) async {
+  /// Saves the value of the specified counter to persistent storage.
+  static Future<void> setCounter(CounterType counter, int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(AppStrings.counterKeys[color], value);
+    await prefs.setInt(AppStrings.counterKeys[counter], value);
   }
 
-  /// Reads the values of the color counters from persistent storage.
+  /// Reads the values of all counters from persistent storage.
   static Future<void> getCounters(Map<CounterType, int> counters) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    counters.keys.forEach((color) {
-      counters[color] = prefs.getInt(AppStrings.counterKeys[color]) ?? 0;
+    counters.keys.forEach((counterType) {
+      counters[counterType] = prefs.getInt(AppStrings.counterKeys[counterType]) ?? 0;
     });
   }
 }

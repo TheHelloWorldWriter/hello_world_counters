@@ -2,22 +2,25 @@ import 'package:flutter/material.dart';
 
 import 'color_filled_circle.dart';
 
-class ColorListTile extends StatelessWidget {
+class ColorListTile<T> extends StatelessWidget {
   const ColorListTile({
     Key key,
+    @required this.value,
     @required this.color,
-    @required this.titleData,
-    this.onTap,
+    @required this.title,
     this.selected = false,
+    this.onTap,
   })  : assert(color != null),
-        assert(titleData != null),
+        assert(title != null),
         super(key: key);
+
+  final T value;
 
   final Color color;
 
-  final bool selected;
+  final String title;
 
-  final String titleData;
+  final bool selected;
 
   /// Called when the user taps this list tile.
   ///
@@ -35,10 +38,8 @@ class ColorListTile extends StatelessWidget {
           border: color == Colors.white ? Border.all() : null,
         ),
         title: Text(
-          this.titleData,
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1.color,
-          ),
+          this.title,
+          style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
         ),
         onTap: onTap,
       ),
