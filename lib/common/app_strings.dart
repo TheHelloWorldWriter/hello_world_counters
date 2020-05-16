@@ -1,6 +1,6 @@
 import 'package:counterswithcolornames/screens/home.dart';
 
-import 'app_colors.dart';
+import 'app_commons.dart';
 
 class AppStrings {
   static const String appName = 'Counters With Color Names';
@@ -21,34 +21,34 @@ class AppStrings {
   static const String incrementTooltip = 'Increment';
   static const String decrementTooltip = 'Decrement';
 
-  static const Map<BasicColors, String> counterTitles = const {
-    BasicColors.white: 'White Counter',
-    BasicColors.black: 'Black Counter',
-    BasicColors.grey: 'Grey Counter',
-    BasicColors.yellow: 'Yellow Counter',
-    BasicColors.red: 'Red Counter',
-    BasicColors.blue: 'Blue Counter',
-    BasicColors.green: 'Green Counter',
-    BasicColors.brown: 'Brown Counter',
-    BasicColors.pink: 'Pink Counter',
-    BasicColors.orange: 'Orange Counter',
-    BasicColors.purple: 'Purple Counter',
+  static const Map<CounterType, String> counterNames = const {
+    CounterType.white: 'White Counter',
+    CounterType.black: 'Black Counter',
+    CounterType.grey: 'Grey Counter',
+    CounterType.yellow: 'Yellow Counter',
+    CounterType.red: 'Red Counter',
+    CounterType.blue: 'Blue Counter',
+    CounterType.green: 'Green Counter',
+    CounterType.brown: 'Brown Counter',
+    CounterType.pink: 'Pink Counter',
+    CounterType.orange: 'Orange Counter',
+    CounterType.purple: 'Purple Counter',
   };
 
   static const String currentColorKey = 'current_color';
 
-  static const Map<BasicColors, String> counterKeys = const {
-    BasicColors.white: 'white_counter',
-    BasicColors.black: 'black_counter',
-    BasicColors.grey: 'grey_counter',
-    BasicColors.yellow: 'yellow_counter',
-    BasicColors.red: 'red_counter',
-    BasicColors.blue: 'blue_counter',
-    BasicColors.green: 'green_counter',
-    BasicColors.brown: 'brown_counter',
-    BasicColors.pink: 'pink_counter',
-    BasicColors.orange: 'orange_counter',
-    BasicColors.purple: 'purple_counter',
+  static const Map<CounterType, String> counterKeys = const {
+    CounterType.white: 'white_counter',
+    CounterType.black: 'black_counter',
+    CounterType.grey: 'grey_counter',
+    CounterType.yellow: 'yellow_counter',
+    CounterType.red: 'red_counter',
+    CounterType.blue: 'blue_counter',
+    CounterType.green: 'green_counter',
+    CounterType.brown: 'brown_counter',
+    CounterType.pink: 'pink_counter',
+    CounterType.orange: 'orange_counter',
+    CounterType.purple: 'purple_counter',
   };
 
   static const String resetConfirm = 'Reset counter to zero?';

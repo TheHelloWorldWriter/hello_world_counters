@@ -1,4 +1,4 @@
-import 'package:counterswithcolornames/common/app_colors.dart';
+import 'package:counterswithcolornames/common/app_commons.dart';
 import 'package:counterswithcolornames/common/app_strings.dart';
 import 'package:counterswithcolornames/common/settings_provider.dart';
 import 'package:counterswithcolornames/utils/color_utils.dart';
@@ -21,14 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
   /// The AppBar's action needs this key to find its own Scaffold.
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  BasicColors _currentBasicColor = BasicColors.white;
+  CounterType _currentCounter = CounterType.white;
 
   /// The current counter values for each color
-  Map<BasicColors, int> _counters = Map<BasicColors, int>();
+  Map<CounterType, int> _counters = Map<CounterType, int>();
 
   _HomeScreenState() {
     // Init counters to 0
-    BasicColors.values.forEach((color) => _counters[color] = 0);
+    CounterType.values.forEach((color) => _counters[color] = 0);
   }
 
   @override
@@ -39,24 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _initCounters() async {
     await SettingsProvider.getCounters(_counters);
-    _currentBasicColor = await SettingsProvider.getCurrentColor();
+    _currentCounter = await SettingsProvider.getCurrentColor();
     setState(() {});
-  }
-
-  Widget _drawerListTile(BasicColors color) {
-    return ColorListTile(
-      color: AppColors.basicColorValues[color],
-      titleData: AppStrings.counterTitles[color],
-      selected: color == _currentBasicColor,
-      onTap: () {
-        setState(() {
-          _currentBasicColor = color;
-        });
-        SettingsProvider.setCurrentColor(_currentBasicColor);
-
-        Navigator.pop(context);
-      },
-    );
   }
 
   /// Performs the tasks of the overflow menu items.
@@ -68,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case MenuAction.share:
         Share.share(
-            'Your ${AppStrings.counterTitles[_currentBasicColor]} is ${_counters[_currentBasicColor]}',
+          'Your ${AppStrings.counterNames[_currentCounter]} is ${_counters[_currentCounter]}',
 //            subject: Strings.shareSubject);
         );
         break;
@@ -83,16 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  /// Update the current color counter using the [change] function parameter,
-  /// and notify the framework.
-  ///
-  /// This method is currently called with [change] functions that decrement,
-  /// increment or reset the counter.
+  /// Update the current color counter using the [change] function parameter
+  /// (e.g. increment, decrement, reset), and notify the framework.
   void _changeCounter(Function(int) change) {
     setState(() {
-      _counters[_currentBasicColor] = change(_counters[_currentBasicColor]);
+      _counters[_currentCounter] = change(_counters[_currentCounter]);
     });
-    SettingsProvider.setCounter(_currentBasicColor, _counters[_currentBasicColor]);
+    SettingsProvider.setCounter(_currentCounter, _counters[_currentCounter]);
   }
 
   @override
@@ -101,62 +82,95 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(AppStrings.counterTitles[_currentBasicColor]),
-        actions: <Widget>[
-          PopupMenuButton<MenuAction>(
-            onSelected: popupMenuSelection,
-            itemBuilder: _buildMenuItems,
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            SlimDrawerHeader(title: AppStrings.drawerTitle),
-            ...BasicColors.values.map(_drawerListTile),
-          ],
-        ),
-      ),
+      appBar: _buildAppBar(),
+      drawer: _buildDrawer(),
       body: Container(
         alignment: Alignment.center,
-        color: AppColors.basicColorValues[_currentBasicColor],
+        color: AppColors.basicColorValues[_currentCounter],
         child: Text(
-          localizations.formatDecimal(_counters[_currentBasicColor]),
+          localizations.formatDecimal(_counters[_currentCounter]),
           style: Theme.of(context).textTheme.headline1.copyWith(
-                color: AppColors.basicColorValues[_currentBasicColor].contrastOf(),
+                color: AppColors.basicColorValues[_currentCounter].contrastOf(),
               ),
         ),
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton(
-            backgroundColor: Colors.white54,
-            onPressed: () => _changeCounter((value) => value - 1),
-            tooltip: AppStrings.decrementTooltip,
-            child: const Icon(Icons.remove),
-          ),
-          const SizedBox(height: 16.0),
-          FloatingActionButton(
-            onPressed: () => _changeCounter((value) => value + 1),
-            tooltip: AppStrings.incrementTooltip,
-            child: const Icon(Icons.add),
-          )
-        ],
-      ),
+      floatingActionButton: _buildFABs(),
     );
   }
 
+  /// Builds the app bar with the popup menu items.
+  Widget _buildAppBar() {
+    return AppBar(
+      title: Text(AppStrings.counterNames[_currentCounter]),
+      actions: <Widget>[
+        PopupMenuButton<MenuAction>(
+          onSelected: popupMenuSelection,
+          itemBuilder: _buildMenuItems,
+        ),
+      ],
+    );
+  }
+
+  /// Builds the popup menu items for the app bar.
   List<PopupMenuItem<MenuAction>> _buildMenuItems(BuildContext context) {
     return MenuAction.values
         .map(
           (item) => PopupMenuItem<MenuAction>(
             value: item,
             child: Text(AppStrings.menuActions[item]),
-            enabled: !(item == MenuAction.reset && _counters[_currentBasicColor] == 0),
+            enabled: !(item == MenuAction.reset && _counters[_currentCounter] == 0),
           ),
         )
         .toList();
+  }
+
+  /// Builds the main drawer that lets the user switch between color counters.
+  Widget _buildDrawer() {
+    return Drawer(
+      child: ListView(
+        children: <Widget>[
+          SlimDrawerHeader(title: AppStrings.drawerTitle),
+          ...CounterType.values.map(_drawerListTile),
+        ],
+      ),
+    );
+  }
+
+  /// Builds a drawer list tile for the specified color counter.
+  Widget _drawerListTile(CounterType color) {
+    return ColorListTile(
+      color: AppColors.basicColorValues[color],
+      titleData: AppStrings.counterNames[color],
+      selected: color == _currentCounter,
+      onTap: () {
+        setState(() {
+          _currentCounter = color;
+        });
+        SettingsProvider.setCurrentColor(_currentCounter);
+
+        Navigator.pop(context);
+      },
+    );
+  }
+
+  /// Builds the two main floating action buttons for increment and decrement.
+  Widget _buildFABs() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        FloatingActionButton(
+          backgroundColor: Colors.white54,
+          onPressed: () => _changeCounter((value) => value - 1),
+          tooltip: AppStrings.decrementTooltip,
+          child: const Icon(Icons.remove),
+        ),
+        const SizedBox(height: 16.0),
+        FloatingActionButton(
+          onPressed: () => _changeCounter((value) => value + 1),
+          tooltip: AppStrings.incrementTooltip,
+          child: const Icon(Icons.add),
+        )
+      ],
+    );
   }
 }

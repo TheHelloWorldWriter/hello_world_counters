@@ -1,7 +1,7 @@
 import 'package:counterswithcolornames/common/app_strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app_colors.dart';
+import 'app_commons.dart';
 
 class SettingsProvider {
   /// Saves the gestures counter values to persistent storage.
@@ -13,24 +13,24 @@ class SettingsProvider {
 //  }
 
 
-  static Future<BasicColors> getCurrentColor() async {
+  static Future<CounterType> getCurrentColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final int colorIndex = prefs.getInt(AppStrings.currentColorKey) ?? 0;
-    return BasicColors.values[colorIndex];
+    return CounterType.values[colorIndex];
   }
 
-  static Future<void> setCurrentColor(BasicColors value) async {
+  static Future<void> setCurrentColor(CounterType value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt(AppStrings.currentColorKey, value.index);
   }
 
-  static Future<void> setCounter(BasicColors color, int value) async {
+  static Future<void> setCounter(CounterType color, int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt(AppStrings.counterKeys[color], value);
   }
 
   /// Reads the values of the color counters from persistent storage.
-  static Future<void> getCounters(Map<BasicColors, int> counters) async {
+  static Future<void> getCounters(Map<CounterType, int> counters) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     counters.keys.forEach((color) {
       counters[color] = prefs.getInt(AppStrings.counterKeys[color]) ?? 0;
