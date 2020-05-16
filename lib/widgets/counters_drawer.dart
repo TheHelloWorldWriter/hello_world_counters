@@ -1,5 +1,4 @@
-import 'package:counterswithcolornames/common/app_commons.dart';
-import 'package:counterswithcolornames/common/app_strings.dart';
+import 'package:counterswithcolornames/models/counter.dart';
 import 'package:flutter/material.dart';
 
 import 'color_list_tile.dart';
@@ -35,7 +34,7 @@ class CountersDrawer extends StatelessWidget {
 
   Widget _buildDrawerHeader(BuildContext context) {
     return SizedBox(
-      height: kToolbarHeight + 58.0,
+      height: kToolbarHeight + 8.0,
       child: DrawerHeader(
         child: Text(
           title,
@@ -48,8 +47,8 @@ class CountersDrawer extends StatelessWidget {
   Widget _buildCounterListTile(CounterType counterType) {
     return ColorListTile<CounterType>(
       value: counterType,
-      color: AppColors.basicColorValues[counterType],
-      title: AppStrings.counterNames[counterType],
+      color: Counter.colorOf(counterType),
+      title: Counter.nameOf(counterType),
       selected: counterType == currentCounter,
       onTap: () {
         if (onSelected != null) onSelected(counterType);

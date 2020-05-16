@@ -1,6 +1,5 @@
-import 'package:counterswithcolornames/common/app_commons.dart';
 import 'package:counterswithcolornames/common/app_strings.dart';
-import 'package:counterswithcolornames/common/settings_provider.dart';
+import 'package:counterswithcolornames/models/counter.dart';
 import 'package:counterswithcolornames/utils/color_utils.dart';
 import 'package:counterswithcolornames/utils/ui_utils.dart';
 import 'package:counterswithcolornames/utils/utils.dart';
@@ -20,34 +19,23 @@ class _HomeScreenState extends State<HomeScreen> {
   /// The AppBar's action needs this key to find its own Scaffold.
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  CounterType _currentCounter = CounterType.white;
-
-  /// The current counter values for each color
-  Map<CounterType, int> _counters = Map<CounterType, int>();
-
-  _HomeScreenState() {
-    // Init counters to 0
-    CounterType.values.forEach((color) => _counters[color] = 0);
-  }
+  final Counters _counters = Counters();
 
   @override
   void initState() {
     super.initState();
-    _initCounters();
+    _loadCounters();
   }
 
-  Future<void> _initCounters() async {
-    await SettingsProvider.getCounters(_counters);
-    _currentCounter = await SettingsProvider.getCurrentCounterType();
+  Future<void> _loadCounters() async {
+    await _counters.load();
     setState(() {});
   }
 
   void _onDrawerCounterTap(CounterType counterType) {
     setState(() {
-      _currentCounter = counterType;
+      _counters.currentType = counterType;
     });
-    SettingsProvider.setCurrentCounterType(_currentCounter);
-
     Navigator.pop(context);
   }
 
@@ -62,7 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
         Share.share(
 //            AppStrings.shareText(AppStrings.counterNames[_currentCounter], _counters[_currentCounter)
 
-          'Your ${AppStrings.counterNames[_currentCounter]} is ${_counters[_currentCounter]}',
+//          'Your ${AppStrings.counterNames[_currentCounter]} is ${_countersList[_currentCounter]}',
+          'Your ${_counters.current.name} is ${_counters.current.value}',
 //            subject: Strings.shareSubject);
         );
         break;
@@ -81,9 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
   /// (e.g. increment, decrement, reset), and notify the framework.
   void _changeCounter(Function(int) change) {
     setState(() {
-      _counters[_currentCounter] = change(_counters[_currentCounter]);
+      _counters.current.value = change(_counters.current.value);
     });
-    SettingsProvider.setCounter(_currentCounter, _counters[_currentCounter]);
   }
 
   @override
@@ -96,11 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: _buildDrawer(),
       body: Container(
         alignment: Alignment.center,
-        color: AppColors.basicColorValues[_currentCounter],
+        color: _counters.current.color,
         child: Text(
-          localizations.formatDecimal(_counters[_currentCounter]),
+          localizations.formatDecimal(_counters.current.value),
           style: Theme.of(context).textTheme.headline1.copyWith(
-                color: AppColors.basicColorValues[_currentCounter].contrastOf(),
+                color: _counters.current.color.contrastOf(),
               ),
         ),
       ),
@@ -111,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Builds the app bar with the popup menu items.
   Widget _buildAppBar() {
     return AppBar(
-      title: Text(AppStrings.counterNames[_currentCounter]),
+      title: Text(_counters.current.name),
       actions: <Widget>[
         PopupMenuButton<MenuAction>(
           onSelected: popupMenuSelection,
@@ -128,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
           (item) => PopupMenuItem<MenuAction>(
             value: item,
             child: Text(AppStrings.menuActions[item]),
-            enabled: !(item == MenuAction.reset && _counters[_currentCounter] == 0),
+            enabled: !(item == MenuAction.reset && _counters.current.value == 0),
           ),
         )
         .toList();
@@ -138,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildDrawer() {
     return CountersDrawer(
       title: AppStrings.drawerTitle,
-      currentCounter: _currentCounter,
+      currentCounter: _counters.current.type,
       onSelected: _onDrawerCounterTap,
     );
   }
