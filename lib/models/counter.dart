@@ -12,9 +12,21 @@ class Counter {
 
   int get value => _value;
 
-  set value(int value) {
+  void _setValue(int value) {
     _value = value;
     _saveValue();
+  }
+
+  void increment() {
+    _setValue(value + 1);
+  }
+
+  void decrement() {
+    _setValue(value - 1);
+  }
+
+  void reset() {
+    _setValue(0);
   }
 
   Future<void> _saveValue() async {
@@ -23,7 +35,7 @@ class Counter {
   }
 
   void loadValue(SharedPreferences prefs) {
-    value = prefs.getInt(AppStrings.counterKeys[type]) ?? 0;
+    _value = prefs.getInt(AppStrings.counterKeys[type]) ?? 0;
   }
 
   final CounterType type;

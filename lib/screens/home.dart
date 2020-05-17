@@ -33,20 +33,19 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  /// Select and display the specified counter when its drawer list tile is tapped.
   void _onDrawerCounterTap(CounterType counterType) {
-    setState(() {
-      _counters.currentType = counterType;
-    });
+    setState(() => _counters.currentType = counterType);
     Navigator.pop(context);
   }
 
-  /// Performs the tasks of the popup menu items.
+  /// Performs the tasks of the popup menu items (reset, share, rate, and help).
   void popupMenuSelection(MenuAction item) {
     switch (item) {
       case MenuAction.reset:
         // Reset the counter after asking for confirmation
-//        setState(() => _counters.current.value = 999999999);
-        showYesNoDialog(context, AppStrings.resetConfirm, () => _changeCounter((value) => 0));
+        showYesNoDialog(
+            context, AppStrings.resetConfirm, () => setState(() => _counters.current.reset()));
         break;
       case MenuAction.share:
         final String name = _counters.current.name;
@@ -62,14 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
         launchUrl(_scaffoldKey.currentState, AppStrings.helpURL);
         break;
     }
-  }
-
-  /// Update the current color counter using the [change] function parameter
-  /// (e.g. increment, decrement, reset), and notify the framework.
-  void _changeCounter(Function(int) change) {
-    setState(() {
-      _counters.current.value = change(_counters.current.value);
-    });
   }
 
   @override
@@ -133,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
         FloatingActionButton(
 //          backgroundColor: Colors.white54,
 //          backgroundColor: Colors.white,
-          onPressed: () => _changeCounter((value) => value - 1),
+          onPressed: () => setState(() => _counters.current.decrement()),
           tooltip: AppStrings.decrementTooltip,
           child: const Icon(Icons.remove),
         ),
@@ -141,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
         FloatingActionButton(
 //          backgroundColor: Colors.black,
 //          foregroundColor: Colors.white,
-          onPressed: () => _changeCounter((value) => value + 1),
+          onPressed: () => setState(() => _counters.current.increment()),
           tooltip: AppStrings.incrementTooltip,
           child: const Icon(Icons.add),
         )
