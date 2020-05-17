@@ -3,6 +3,7 @@ import 'package:counterswithcolornames/models/counter.dart';
 import 'package:counterswithcolornames/utils/color_utils.dart';
 import 'package:counterswithcolornames/utils/ui_utils.dart';
 import 'package:counterswithcolornames/utils/utils.dart';
+import 'package:counterswithcolornames/widgets/counter_display.dart';
 import 'package:counterswithcolornames/widgets/counters_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
@@ -44,17 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (item) {
       case MenuAction.reset:
         // Reset the counter after asking for confirmation
-        setState(() => _counters.current.value = 999999999);
-//        showYesNoDialog(context, AppStrings.resetConfirm, () => _changeCounter((value) => 0));
+//        setState(() => _counters.current.value = 999999999);
+        showYesNoDialog(context, AppStrings.resetConfirm, () => _changeCounter((value) => 0));
         break;
       case MenuAction.share:
-        Share.share(
-//            AppStrings.shareText(AppStrings.counterNames[_currentCounter], _counters[_currentCounter)
-
-//          'Your ${AppStrings.counterNames[_currentCounter]} is ${_countersList[_currentCounter]}',
-          'Your ${_counters.current.name} is ${_counters.current.value}',
-//            subject: Strings.shareSubject);
-        );
+        final String name = _counters.current.name;
+        final String value = toDecimalString(context, _counters.current.value);
+        Share.share(AppStrings.shareText(name, value), subject: name);
         break;
       case MenuAction.rate:
         // Launch the Google Play Store page to allow the user to rate the app
@@ -77,29 +74,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+    final bool isPortrait = MediaQuery.of(context).size.height >= 500;
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: _buildAppBar(),
       drawer: _buildDrawer(),
-      body: Container(
-        alignment: Alignment.center,
+      body: CounterDisplay(
+        value: _counters.current.value,
         color: _counters.current.color,
-        padding: EdgeInsets.all(16.0),
-//        padding: EdgeInsets.all(90.0),
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
-          child: Text(
-            localizations.formatDecimal(_counters.current.value),
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.headline1.copyWith(
-                  color: _counters.current.color.contrastOf(),
-                ),
-          ),
-        ),
+        isPortrait: isPortrait,
       ),
-      floatingActionButton: _buildFABs(),
+      floatingActionButton: _buildFABs(isPortrait),
     );
   }
 
@@ -139,31 +125,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// Builds the two main floating action buttons for increment and decrement.
-  Widget _buildFABs() {
-//    bool isScreenWide = MediaQuery.of(context).size.width >= kMinWidthOfLargeScreen;
-    bool isScreenNarrow = MediaQuery.of(context).size.height < 500;
-    print(MediaQuery.of(context).size.height);
-    final bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-
-//    return Column(
+  Widget _buildFABs(bool isPortrait) {
     return Flex(
-      direction: isScreenNarrow ? Axis.horizontal : Axis.vertical,
-//      direction: isPortrait ? Axis.vertical : Axis.horizontal,
+      direction: isPortrait ? Axis.vertical : Axis.horizontal,
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         FloatingActionButton(
 //          backgroundColor: Colors.white54,
-          backgroundColor: Colors.white,
+//          backgroundColor: Colors.white,
           onPressed: () => _changeCounter((value) => value - 1),
           tooltip: AppStrings.decrementTooltip,
           child: const Icon(Icons.remove),
         ),
-        isScreenNarrow ? const SizedBox(width: 16.0) : const SizedBox(height: 16.0),
-//        isPortrait ? const SizedBox(height: 16.0) : const SizedBox(width: 16.0),
-//        const SizedBox(height: 16.0),
+        isPortrait ? const SizedBox(height: 16.0) : const SizedBox(width: 16.0),
         FloatingActionButton(
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
+//          backgroundColor: Colors.black,
+//          foregroundColor: Colors.white,
           onPressed: () => _changeCounter((value) => value + 1),
           tooltip: AppStrings.incrementTooltip,
           child: const Icon(Icons.add),

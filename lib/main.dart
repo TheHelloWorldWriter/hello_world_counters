@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.light()
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        typography: Typography.material2018(),
       ),
       home: HomeScreen(),
     );

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+String toDecimalString(BuildContext context, int value) {
+  final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+  return localizations.formatDecimal(value);
+}
+
 /// Shows a [SnackBar] at the bottom of the specified scaffold.
 void showSnackBar(ScaffoldState scaffoldState, String text) {
   scaffoldState.showSnackBar(
