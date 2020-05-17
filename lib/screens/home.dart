@@ -44,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (item) {
       case MenuAction.reset:
         // Reset the counter after asking for confirmation
-        showYesNoDialog(context, AppStrings.resetConfirm, () => _changeCounter((value) => 0));
+        setState(() => _counters.current.value = 999999999);
+//        showYesNoDialog(context, AppStrings.resetConfirm, () => _changeCounter((value) => 0));
         break;
       case MenuAction.share:
         Share.share(
@@ -85,11 +86,17 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         alignment: Alignment.center,
         color: _counters.current.color,
-        child: Text(
-          localizations.formatDecimal(_counters.current.value),
-          style: Theme.of(context).textTheme.headline1.copyWith(
-                color: _counters.current.color.contrastOf(),
-              ),
+        padding: EdgeInsets.all(16.0),
+//        padding: EdgeInsets.all(90.0),
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            localizations.formatDecimal(_counters.current.value),
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.headline1.copyWith(
+                  color: _counters.current.color.contrastOf(),
+                ),
+          ),
         ),
       ),
       floatingActionButton: _buildFABs(),
@@ -133,17 +140,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Builds the two main floating action buttons for increment and decrement.
   Widget _buildFABs() {
-    return Column(
+//    bool isScreenWide = MediaQuery.of(context).size.width >= kMinWidthOfLargeScreen;
+    bool isScreenNarrow = MediaQuery.of(context).size.height < 500;
+    print(MediaQuery.of(context).size.height);
+    final bool isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+
+//    return Column(
+    return Flex(
+      direction: isScreenNarrow ? Axis.horizontal : Axis.vertical,
+//      direction: isPortrait ? Axis.vertical : Axis.horizontal,
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         FloatingActionButton(
-          backgroundColor: Colors.white54,
+//          backgroundColor: Colors.white54,
+          backgroundColor: Colors.white,
           onPressed: () => _changeCounter((value) => value - 1),
           tooltip: AppStrings.decrementTooltip,
           child: const Icon(Icons.remove),
         ),
-        const SizedBox(height: 16.0),
+        isScreenNarrow ? const SizedBox(width: 16.0) : const SizedBox(height: 16.0),
+//        isPortrait ? const SizedBox(height: 16.0) : const SizedBox(width: 16.0),
+//        const SizedBox(height: 16.0),
         FloatingActionButton(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
           onPressed: () => _changeCounter((value) => value + 1),
           tooltip: AppStrings.incrementTooltip,
           child: const Icon(Icons.add),
