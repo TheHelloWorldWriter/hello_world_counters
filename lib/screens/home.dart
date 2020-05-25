@@ -1,6 +1,5 @@
 import 'package:counterswithcolornames/common/app_strings.dart';
 import 'package:counterswithcolornames/models/counter.dart';
-import 'package:counterswithcolornames/utils/color_utils.dart';
 import 'package:counterswithcolornames/utils/ui_utils.dart';
 import 'package:counterswithcolornames/utils/utils.dart';
 import 'package:counterswithcolornames/widgets/counter_display.dart';
@@ -122,16 +121,12 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         FloatingActionButton(
-//          backgroundColor: Colors.white54,
-//          backgroundColor: Colors.white,
           onPressed: () => setState(() => _counters.current.decrement()),
           tooltip: AppStrings.decrementTooltip,
           child: const Icon(Icons.remove),
         ),
         isPortrait ? const SizedBox(height: 16.0) : const SizedBox(width: 16.0),
         FloatingActionButton(
-//          backgroundColor: Colors.black,
-//          foregroundColor: Colors.white,
           onPressed: () => setState(() => _counters.current.increment()),
           tooltip: AppStrings.incrementTooltip,
           child: const Icon(Icons.add),

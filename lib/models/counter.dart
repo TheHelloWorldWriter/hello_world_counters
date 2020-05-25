@@ -1,90 +1,136 @@
-import 'package:counterswithcolornames/common/app_strings.dart';
+// Copyright 2020 anaurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum CounterType { White, Black, Red, Green, Yellow, Blue, Brown, Purple, Pink, Orange, Grey }
+/// Counter (color) types.
+enum CounterType { white, black, red, green, yellow, blue, brown, purple, pink, orange, grey }
 
+/// An integer counter class.
 class Counter {
+  /// Creates a counter of the specified [type].
   Counter(this.type);
 
+  //#region Counter value
+
+  /// The counter value.
   int _value = 0;
 
+  /// Returns the counter value.
   int get value => _value;
 
+  /// Private setter that sets the counter value.
   void _setValue(int value) {
     _value = value;
     _saveValue();
   }
 
+  /// Increments the counter value.
   void increment() {
     _setValue(value + 1);
   }
 
+  /// Decrements the counter value.
   void decrement() {
     _setValue(value - 1);
   }
 
+  /// Resets the counter value to zero.
   void reset() {
     _setValue(0);
   }
 
+  //#endregion
+
+  //#region Persistent storage
+
+  /// Returns the persistent storage key for each counter type.
+  static String _counterKey(CounterType type) => '${describeEnum(type)}_counter';
+
+  /// Saves the counter value to persistent storage.
   Future<void> _saveValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(AppStrings.counterKeys[type], value);
+    await prefs.setInt(_counterKey(type), value);
   }
 
+  /// Loads the counter value from persistent storage.
   void loadValue(SharedPreferences prefs) {
-    _value = prefs.getInt(AppStrings.counterKeys[type]) ?? 0;
+    _value = prefs.getInt(_counterKey(type)) ?? 0;
   }
 
+  //#endregion
+
+  //#region Counter type, color, name
+
+  /// The counter type.
   final CounterType type;
 
-//  String get name => AppStrings.counterNames[type];
-  String get name => nameOf(type);
-
+  /// Returns the ARGB color value of the current counter.
   Color get color => _counterColors[type];
 
-//  String toString() =>
+  /// Returns the name of the current counter (e.g. "Red Counter").
+  String get name => nameOf(type);
 
-  static Color colorOf(CounterType counterType) => _counterColors[counterType];
+  /// Returns the ARGB color value for the specified counter type.
+  static Color colorOf(CounterType type) => _counterColors[type];
 
-  static String nameOf(CounterType counterType) => '${describeEnum(counterType)} Counter';
+  /// Returns the name of the specified counter type (e.g. "Black Counter").
+  static String nameOf(CounterType type) {
+    final String name = describeEnum(type);
+    return '${name.substring(0, 1).toUpperCase()}${name.substring(1).toLowerCase()} Counter';
+  }
 
+  /// A map with the corresponding ARGB color value for each counter type.
   static const Map<CounterType, Color> _counterColors = const {
-    CounterType.White: Colors.white,
-    CounterType.Black: Colors.black,
-    CounterType.Red: Colors.red,
-    CounterType.Green: Colors.green,
-    CounterType.Yellow: Colors.yellow,
-    CounterType.Blue: Colors.blue,
-    CounterType.Brown: Colors.brown,
-    CounterType.Purple: Colors.purple,
-    CounterType.Pink: Colors.pink,
-    CounterType.Orange: Colors.orange,
-    CounterType.Grey: Colors.grey,
+    CounterType.white: Colors.white,
+    CounterType.black: Colors.black,
+    CounterType.red: Colors.red,
+    CounterType.green: Colors.green,
+    CounterType.yellow: Colors.yellow,
+    CounterType.blue: Colors.blue,
+    CounterType.brown: Colors.brown,
+    CounterType.purple: Colors.purple,
+    CounterType.pink: Colors.pink,
+    CounterType.orange: Colors.orange,
+    CounterType.grey: Colors.grey,
   };
+
+//#endregion
+
 }
 
+/// Provides a map of counters for each counter type, and keeps a reference to the current counter.
 class Counters {
+  /// The persistent storage key where to keep the current counter type.
+  static const String currentCounterKey = 'current_counter';
+
+  /// A map of counters for each counter type.
   Map<CounterType, Counter> _counters = Map<CounterType, Counter>();
 
-  CounterType _currentType = CounterType.White;
+  /// The current counter type.
+  CounterType _currentType = CounterType.white;
 
+  /// Creates a Counters instance and creates the counter instances for all counter types.
+  Counters() {
+    CounterType.values.forEach((type) => _counters[type] = Counter(type));
+  }
+
+  /// Returns the current counter.
   Counter get current => _counters[_currentType];
 
+  /// Sets the current counter type.
   set currentType(CounterType type) {
     _currentType = type;
     _saveCurrentType();
   }
 
+  /// Saves the current counter type to persistent storage.
   Future<void> _saveCurrentType() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(AppStrings.currentCounterKey, _currentType.index);
-  }
-
-  Counters() {
-    CounterType.values.forEach((type) => _counters[type] = Counter(type));
+    await prefs.setInt(currentCounterKey, _currentType.index);
   }
 
   /// Loads counter states from persistent storage.
@@ -92,7 +138,7 @@ class Counters {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     /// Load the current counter type
-    final int counterIndex = prefs.getInt(AppStrings.currentCounterKey) ?? 0;
+    final int counterIndex = prefs.getInt(currentCounterKey) ?? 0;
     _currentType = CounterType.values[counterIndex];
 
     /// Loads the values of all counters

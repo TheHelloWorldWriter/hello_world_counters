@@ -6,6 +6,11 @@ String toDecimalString(BuildContext context, int value) {
   return localizations.formatDecimal(value);
 }
 
+extension StringX on String {
+  /// Capitalizes the string (e.g. red => Red).
+  String capitalize() => '${this.substring(0, 1).toUpperCase()}${this.substring(1).toLowerCase()}';
+}
+
 /// Shows a [SnackBar] at the bottom of the specified scaffold.
 void showSnackBar(ScaffoldState scaffoldState, String text) {
   scaffoldState.showSnackBar(

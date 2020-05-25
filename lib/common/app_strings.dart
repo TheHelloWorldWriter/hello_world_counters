@@ -15,25 +15,25 @@ class AppStrings {
   static const String incrementTooltip = 'Increment';
   static const String decrementTooltip = 'Decrement';
 
-  static const String currentCounterKey = 'current_color';
+//  static const String currentCounterKey = 'current_color';
 
-  static const Map<CounterType, String> counterKeys = const {
-    CounterType.White: 'white_counter',
-    CounterType.Black: 'black_counter',
-    CounterType.Grey: 'grey_counter',
-    CounterType.Yellow: 'yellow_counter',
-    CounterType.Red: 'red_counter',
-    CounterType.Blue: 'blue_counter',
-    CounterType.Green: 'green_counter',
-    CounterType.Brown: 'brown_counter',
-    CounterType.Pink: 'pink_counter',
-    CounterType.Orange: 'orange_counter',
-    CounterType.Purple: 'purple_counter',
-  };
+//  static const Map<CounterType, String> counterKeys = const {
+//    CounterType.white: 'white_counter',
+//    CounterType.black: 'black_counter',
+//    CounterType.grey: 'grey_counter',
+//    CounterType.yellow: 'yellow_counter',
+//    CounterType.red: 'red_counter',
+//    CounterType.blue: 'blue_counter',
+//    CounterType.green: 'green_counter',
+//    CounterType.brown: 'brown_counter',
+//    CounterType.pink: 'pink_counter',
+//    CounterType.orange: 'orange_counter',
+//    CounterType.purple: 'purple_counter',
+//  };
 
   static const String resetConfirm = 'Reset counter to zero?';
 
-  static String shareText(String name, String value) => 'Your $name is $value';
+  static String shareText(String name, String value) => 'The $name is $value';
 
   static const String shareSubject = 'Your new PIN';
 
