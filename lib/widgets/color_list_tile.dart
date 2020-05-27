@@ -1,11 +1,16 @@
+// Copyright 2020 anaurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
-import 'color_filled_circle.dart';
-
-class ColorListTile<T> extends StatelessWidget {
+/// A list tile that contains a leading circular color swatch and some text.
+class ColorListTile extends StatelessWidget {
+  /// Creates a color list tile.
+  ///
+  /// The [color] and [title] parameters must not be null.
   const ColorListTile({
     Key key,
-    @required this.value,
     @required this.color,
     @required this.title,
     this.selected = false,
@@ -14,17 +19,16 @@ class ColorListTile<T> extends StatelessWidget {
         assert(title != null),
         super(key: key);
 
-  final T value;
-
+  /// The ARGB color value to fill the circular color swatch.
   final Color color;
 
+  /// The primary text content of the color list tile.
   final String title;
 
+  /// This color list tile is currently selected, and will be rendered with a grey background.
   final bool selected;
 
   /// Called when the user taps this list tile.
-  ///
-  /// Inoperative if [enabled] is false.
   final GestureTapCallback onTap;
 
   @override
@@ -33,7 +37,7 @@ class ColorListTile<T> extends StatelessWidget {
       color: selected ? Colors.black12 : null,
       child: ListTile(
         selected: selected,
-        leading: ColorFilledCircle(
+        leading: _ColorFilledCircle(
           color: color,
           border: color == Colors.white ? Border.all() : null,
         ),
@@ -42,6 +46,42 @@ class ColorListTile<T> extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
         ),
         onTap: onTap,
+      ),
+    );
+  }
+}
+
+/// A circular widget filled with a specified [Color].
+class _ColorFilledCircle extends StatelessWidget {
+  /// Creates a circular widget filled with the specified [Color].
+  ///
+  /// The [color] parameter must not be null.
+  const _ColorFilledCircle({
+    Key key,
+    @required this.color,
+    this.diameter = 40.0,
+    this.border,
+  })  : assert(color != null),
+        super(key: key);
+
+  /// The color with which to fill the circle.
+  final Color color;
+
+  /// The size of the circle, expressed as the diameter.
+  final double diameter;
+
+  /// A border to draw above the background [color].
+  final BoxBorder border;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: diameter,
+      height: diameter,
+      decoration: BoxDecoration(
+        color: color,
+        border: border,
+        shape: BoxShape.circle,
       ),
     );
   }

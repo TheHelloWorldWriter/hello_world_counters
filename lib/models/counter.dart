@@ -104,6 +104,11 @@ class Counter {
 
 /// Provides a map of counters for each counter type, and keeps a reference to the current counter.
 class Counters {
+  /// Creates a Counters instance and creates the counter instances for all counter types.
+  Counters() {
+    CounterType.values.forEach((type) => _counters[type] = Counter(type));
+  }
+
   /// The persistent storage key where to keep the current counter type.
   static const String currentCounterKey = 'current_counter';
 
@@ -112,11 +117,6 @@ class Counters {
 
   /// The current counter type.
   CounterType _currentType = CounterType.white;
-
-  /// Creates a Counters instance and creates the counter instances for all counter types.
-  Counters() {
-    CounterType.values.forEach((type) => _counters[type] = Counter(type));
-  }
 
   /// Returns the current counter.
   Counter get current => _counters[_currentType];

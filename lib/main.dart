@@ -1,13 +1,18 @@
-import 'package:counterswithcolornames/common/app_strings.dart';
-import 'package:counterswithcolornames/screens/home.dart';
-import 'package:counterswithcolornames/utils/color_utils.dart';
+// Copyright 2020 anaurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
+import 'package:counters_with_color_names/common/app_strings.dart';
+import 'package:counters_with_color_names/screens/home.dart';
+import 'package:counters_with_color_names/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(CountersApp());
 }
 
-class MyApp extends StatelessWidget {
+/// The app widget.
+class CountersApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,7 +21,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.white.createMaterialColor(),
         buttonTheme: ButtonThemeData(
-          colorScheme: ColorScheme.light()
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.black.createMaterialColor(),
+          ),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         typography: Typography.material2018(),

@@ -1,8 +1,13 @@
-import 'package:counterswithcolornames/utils/color_utils.dart';
-import 'package:counterswithcolornames/utils/utils.dart';
+// Copyright 2020 anaurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
+import 'package:counters_with_color_names/utils/utils.dart';
 import 'package:flutter/material.dart';
 
+/// A widget that displays a centered integer counter value, filled with a specified color.
 class CounterDisplay extends StatelessWidget {
+  /// Creates a counter display widget.
   const CounterDisplay({
     Key key,
     @required this.value,
@@ -19,6 +24,7 @@ class CounterDisplay extends StatelessWidget {
   /// The value of the counter.
   final int value;
 
+  /// Are we in portrait "mode"?
   final bool isPortrait;
 
   @override

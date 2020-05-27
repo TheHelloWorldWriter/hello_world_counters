@@ -1,9 +1,14 @@
-import 'package:counterswithcolornames/models/counter.dart';
+// Copyright 2020 anaurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
+import 'package:counters_with_color_names/models/counter.dart';
+import 'package:counters_with_color_names/widgets/color_list_tile.dart';
 import 'package:flutter/material.dart';
 
-import 'color_list_tile.dart';
-
+/// A material design drawer that shows navigation links for all available counters.
 class CountersDrawer extends StatelessWidget {
+  /// Creates a counters drawer widget.
   const CountersDrawer({
     Key key,
     @required this.title,
@@ -15,6 +20,7 @@ class CountersDrawer extends StatelessWidget {
   /// The title of the drawer displayed in the drawer header.
   final String title;
 
+  /// The current counter type.
   final CounterType currentCounter;
 
   /// Called when the user taps a drawer list tile.
@@ -45,8 +51,7 @@ class CountersDrawer extends StatelessWidget {
   }
 
   Widget _buildCounterListTile(CounterType counterType) {
-    return ColorListTile<CounterType>(
-      value: counterType,
+    return ColorListTile(
       color: Counter.colorOf(counterType),
       title: Counter.nameOf(counterType),
       selected: counterType == currentCounter,

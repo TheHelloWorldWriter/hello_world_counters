@@ -1,24 +1,31 @@
-import 'package:counterswithcolornames/common/app_strings.dart';
-import 'package:counterswithcolornames/models/counter.dart';
-import 'package:counterswithcolornames/utils/ui_utils.dart';
-import 'package:counterswithcolornames/utils/utils.dart';
-import 'package:counterswithcolornames/widgets/counter_display.dart';
-import 'package:counterswithcolornames/widgets/counters_drawer.dart';
+// Copyright 2020 anaurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
+import 'package:counters_with_color_names/common/app_strings.dart';
+import 'package:counters_with_color_names/models/counter.dart';
+import 'package:counters_with_color_names/utils/utils.dart';
+import 'package:counters_with_color_names/widgets/accept_cancel_dialog.dart';
+import 'package:counters_with_color_names/widgets/counter_display.dart';
+import 'package:counters_with_color_names/widgets/counters_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
 /// Overflow menu items enumeration.
 enum MenuAction { reset, share, rate, help }
 
+/// The app home screen widget.
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+/// The logic and internal state for the app home screen widget.
 class _HomeScreenState extends State<HomeScreen> {
   /// The AppBar's action needs this key to find its own Scaffold.
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  /// The map of counters for each counter type.
   final Counters _counters = Counters();
 
   @override
@@ -27,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadCounters();
   }
 
+  /// Loads counter values from persistent storage.
   Future<void> _loadCounters() async {
     await _counters.load();
     setState(() {});
@@ -42,11 +50,17 @@ class _HomeScreenState extends State<HomeScreen> {
   void popupMenuSelection(MenuAction item) {
     switch (item) {
       case MenuAction.reset:
-        // Reset the counter after asking for confirmation
-        showYesNoDialog(
-            context, AppStrings.resetConfirm, () => setState(() => _counters.current.reset()));
+        // Reset the counter after asking for confirmation.
+        showAcceptCancelDialog(
+          context,
+          AppStrings.resetConfirm,
+          AppStrings.resetConfirmReset,
+          AppStrings.resetConfirmCancel,
+          () => setState(() => _counters.current.reset()),
+        );
         break;
       case MenuAction.share:
+        // Share the current counter value using the platform's share sheet.
         final String name = _counters.current.name;
         final String value = toDecimalString(context, _counters.current.value);
         Share.share(AppStrings.shareText(name, value), subject: name);
