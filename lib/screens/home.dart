@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 /// The logic and internal state for the app home screen widget.
 class _HomeScreenState extends State<HomeScreen> {
   /// The AppBar's action needs this key to find its own Scaffold.
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   /// The map of counters for each counter type.
   final Counters _counters = Counters();
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// Builds the app bar with the popup menu items.
-  Widget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: Text(_counters.current.name),
       actions: <Widget>[

@@ -12,7 +12,7 @@ class AppStrings {
 
   //#region Menu items and functionality
 
-  static const Map<MenuAction, String> menuActions = const {
+  static const Map<MenuAction, String> menuActions = {
     MenuAction.reset: 'Reset counter',
     MenuAction.share: 'Share...',
     MenuAction.rate: 'Rate app',

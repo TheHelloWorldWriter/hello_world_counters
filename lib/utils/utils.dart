@@ -39,8 +39,8 @@ extension ColorX on Color {
 
   /// Creates a material color from any ARGB color value.
   MaterialColor createMaterialColor() {
-    List strengths = <double>[.05];
-    Map swatch = <int, Color>{};
+    List<double> strengths = <double>[.05];
+    Map<int, Color> swatch = <int, Color>{};
     final int r = red, g = green, b = blue;
 
     for (int i = 1; i < 10; i++) {

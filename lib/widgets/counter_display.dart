@@ -35,7 +35,7 @@ class CounterDisplay extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       color: color,
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: FittedBox(
         fit: BoxFit.fitWidth,
         child: Text(

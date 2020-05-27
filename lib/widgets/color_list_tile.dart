@@ -42,7 +42,7 @@ class ColorListTile extends StatelessWidget {
           border: color == Colors.white ? Border.all() : null,
         ),
         title: Text(
-          this.title,
+          title,
           style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
         ),
         onTap: onTap,

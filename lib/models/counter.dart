@@ -84,7 +84,7 @@ class Counter {
   }
 
   /// A map with the corresponding ARGB color value for each counter type.
-  static const Map<CounterType, Color> _counterColors = const {
+  static const Map<CounterType, Color> _counterColors = {
     CounterType.white: Colors.white,
     CounterType.black: Colors.black,
     CounterType.red: Colors.red,
@@ -113,7 +113,7 @@ class Counters {
   static const String currentCounterKey = 'current_counter';
 
   /// A map of counters for each counter type.
-  Map<CounterType, Counter> _counters = Map<CounterType, Counter>();
+  final Map<CounterType, Counter> _counters = <CounterType, Counter>{};
 
   /// The current counter type.
   CounterType _currentType = CounterType.white;
