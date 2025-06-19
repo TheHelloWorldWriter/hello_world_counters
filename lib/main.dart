@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'common/app_strings.dart';
+import 'common/strings.dart' as strings;
 import 'common/theme.dart';
 import 'screens/home.dart';
 
@@ -21,7 +21,7 @@ class CountersWithColorNamesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: AppStrings.appName,
+      title: strings.appName,
 
       // The app theme for light and dark mode
       theme: getAppTheme(Brightness.light),

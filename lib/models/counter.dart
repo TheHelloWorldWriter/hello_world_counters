@@ -112,7 +112,7 @@ class Counters {
   final Map<CounterType, Counter> _counters = <CounterType, Counter>{};
 
   /// The current counter type.
-  CounterType _currentType = CounterType.white;
+  CounterType _currentType = CounterType.red;
 
   /// Returns the current counter.
   Counter get current => _counters[_currentType]!;
@@ -134,7 +134,9 @@ class Counters {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     /// Load the current counter type
-    final int counterIndex = prefs.getInt(currentCounterKey) ?? 0;
+    ///
+    /// If the current counter type is not set, it defaults to red.
+    final int counterIndex = prefs.getInt(currentCounterKey) ?? CounterType.red.index;
     _currentType = CounterType.values[counterIndex];
 
     /// Loads the values of all counters

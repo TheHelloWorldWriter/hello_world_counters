@@ -7,16 +7,14 @@ import 'package:flutter/material.dart';
 
 import 'package:share_plus/share_plus.dart';
 
-import '../common/app_strings.dart';
+import '../common/strings.dart' as strings;
+import '../common/types.dart';
 import '../common/urls.dart' as urls;
 import '../models/counter.dart';
 import '../utils/utils.dart' as utils;
 import '../widgets/accept_cancel_dialog.dart';
 import '../widgets/counter_display.dart';
 import '../widgets/counters_drawer.dart';
-
-/// Overflow menu items enumeration.
-enum MenuAction { reset, share, star, help }
 
 /// The app home screen widget.
 class HomeScreen extends StatefulWidget {
@@ -59,9 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
         // Reset the counter after asking for confirmation.
         showAcceptCancelDialog(
           context,
-          AppStrings.resetConfirm,
-          AppStrings.resetConfirmReset,
-          AppStrings.resetConfirmCancel,
+          strings.resetConfirm,
+          strings.resetConfirmReset,
+          strings.resetConfirmCancel,
           () => setState(() => _counters.current.reset()),
         );
         break;
@@ -70,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final String name = _counters.current.name;
         final String value = utils.toDecimalString(context, _counters.current.value);
         SharePlus.instance.share(
-          ShareParams(text: AppStrings.shareText(name, value), subject: name),
+          ShareParams(text: strings.shareText(name, value), subject: name),
         );
         break;
       case MenuAction.star:
@@ -121,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
           (item) => PopupMenuItem<MenuAction>(
             value: item,
             enabled: !(item == MenuAction.reset && _counters.current.value == 0),
-            child: Text(AppStrings.menuActions[item]!),
+            child: Text(strings.menuActions[item]!),
           ),
         )
         .toList();
@@ -130,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Builds the main drawer that lets the user switch between color counters.
   Widget _buildDrawer() {
     return CountersDrawer(
-      title: AppStrings.drawerTitle,
+      title: strings.drawerTitle,
       currentCounter: _counters.current.type,
       onSelected: _onDrawerCounterTap,
     );
@@ -144,13 +142,13 @@ class _HomeScreenState extends State<HomeScreen> {
       children: <Widget>[
         FloatingActionButton(
           onPressed: () => setState(() => _counters.current.decrement()),
-          tooltip: AppStrings.decrementTooltip,
+          tooltip: strings.decrementTooltip,
           child: const Icon(Icons.remove),
         ),
         isPortrait ? const SizedBox(height: 16.0) : const SizedBox(width: 16.0),
         FloatingActionButton(
           onPressed: () => setState(() => _counters.current.increment()),
-          tooltip: AppStrings.incrementTooltip,
+          tooltip: strings.incrementTooltip,
           child: const Icon(Icons.add),
         ),
       ],
