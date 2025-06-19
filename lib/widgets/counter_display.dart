@@ -1,22 +1,21 @@
-// Copyright 2020 anaurelian. All rights reserved.
-// Use of this source code is governed by an MIT-style license that can be
-// found in the LICENSE file.
+// Copyright 2020-2025 Appliberated. All rights reserved.
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://www.appliberated.com/counterswithcolornames/license/.
 
-import 'package:counters_with_color_names/utils/utils.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/utils.dart' as utils;
 
 /// A widget that displays a centered integer counter value, filled with a specified color.
 class CounterDisplay extends StatelessWidget {
   /// Creates a counter display widget.
   const CounterDisplay({
-    Key key,
-    @required this.value,
-    @required this.color,
+    super.key,
+    required this.value,
+    required this.color,
     this.isPortrait = true,
-  }) : assert(value != null),
-       assert(color != null),
-       assert(isPortrait != null),
-       super(key: key);
+  });
 
   /// The color with which to fill the counter container.
   final Color color;
@@ -30,8 +29,8 @@ class CounterDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle counterStyle = isPortrait
-        ? Theme.of(context).textTheme.headline1
-        : Theme.of(context).textTheme.headline2;
+        ? Theme.of(context).textTheme.displayLarge!
+        : Theme.of(context).textTheme.displayMedium!;
 
     return Container(
       alignment: Alignment.center,
@@ -40,10 +39,10 @@ class CounterDisplay extends StatelessWidget {
       child: FittedBox(
         fit: BoxFit.fitWidth,
         child: Text(
-          toDecimalString(context, value),
+          utils.toDecimalString(context, value),
           overflow: TextOverflow.ellipsis,
           style: counterStyle.copyWith(
-            color: color.contrastOf(),
+            color: utils.contrastOfColor(color),
           ),
         ),
       ),

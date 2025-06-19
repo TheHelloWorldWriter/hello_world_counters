@@ -1,9 +1,10 @@
-// Copyright 2020 anaurelian. All rights reserved.
-// Use of this source code is governed by an MIT-style license that can be
-// found in the LICENSE file.
+// Copyright 2020-2025 Appliberated. All rights reserved.
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://www.appliberated.com/counterswithcolornames/license/.
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Counter (color) types.
@@ -14,7 +15,7 @@ class Counter {
   /// Creates a counter of the specified [type].
   Counter(this.type);
 
-  //#region Counter value
+  // Counter value
 
   /// The counter value.
   int _value = 0;
@@ -43,12 +44,10 @@ class Counter {
     _setValue(0);
   }
 
-  //#endregion
-
-  //#region Persistent storage
+  // Persistent storage
 
   /// Returns the persistent storage key for each counter type.
-  static String _counterKey(CounterType type) => '${describeEnum(type)}_counter';
+  static String _counterKey(CounterType type) => '${type.name}_counter';
 
   /// Saves the counter value to persistent storage.
   Future<void> _saveValue() async {
@@ -61,25 +60,23 @@ class Counter {
     _value = prefs.getInt(_counterKey(type)) ?? 0;
   }
 
-  //#endregion
-
-  //#region Counter type, color, name
+  // Counter type, color, name
 
   /// The counter type.
   final CounterType type;
 
   /// Returns the ARGB color value of the current counter.
-  Color get color => _counterColors[type];
+  Color get color => _counterColors[type]!;
 
   /// Returns the name of the current counter (e.g. "Red Counter").
   String get name => nameOf(type);
 
   /// Returns the ARGB color value for the specified counter type.
-  static Color colorOf(CounterType type) => _counterColors[type];
+  static Color colorOf(CounterType type) => _counterColors[type]!;
 
   /// Returns the name of the specified counter type (e.g. "Black Counter").
   static String nameOf(CounterType type) {
-    final String name = describeEnum(type);
+    final String name = type.name;
     return '${name.substring(0, 1).toUpperCase()}${name.substring(1).toLowerCase()} Counter';
   }
 
@@ -97,15 +94,15 @@ class Counter {
     CounterType.orange: Colors.orange,
     CounterType.grey: Colors.grey,
   };
-
-  //#endregion
 }
 
 /// Provides a map of counters for each counter type, and keeps a reference to the current counter.
 class Counters {
   /// Creates a Counters instance and creates the counter instances for all counter types.
   Counters() {
-    CounterType.values.forEach((type) => _counters[type] = Counter(type));
+    for (CounterType type in CounterType.values) {
+      _counters[type] = Counter(type);
+    }
   }
 
   /// The persistent storage key where to keep the current counter type.
@@ -118,7 +115,7 @@ class Counters {
   CounterType _currentType = CounterType.white;
 
   /// Returns the current counter.
-  Counter get current => _counters[_currentType];
+  Counter get current => _counters[_currentType]!;
 
   /// Sets the current counter type.
   set currentType(CounterType type) {
@@ -141,8 +138,8 @@ class Counters {
     _currentType = CounterType.values[counterIndex];
 
     /// Loads the values of all counters
-    _counters.keys.forEach((counterType) {
-      _counters[counterType].loadValue(prefs);
-    });
+    for (CounterType counterType in _counters.keys) {
+      _counters[counterType]?.loadValue(prefs);
+    }
   }
 }

@@ -1,6 +1,7 @@
-// Copyright 2020 anaurelian. All rights reserved.
-// Use of this source code is governed by an MIT-style license that can be
-// found in the LICENSE file.
+// Copyright 2020-2025 Appliberated. All rights reserved.
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://www.appliberated.com/counterswithcolornames/license/.
 
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ void showAcceptCancelDialog(
   String message,
   String acceptButton,
   String cancelButton,
-  VoidCallback onAccept,
+  VoidCallback? onAccept,
 ) {
   showDialog<void>(
     context: context,
@@ -18,18 +19,16 @@ void showAcceptCancelDialog(
       return AlertDialog(
         content: Text(message),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(cancelButton.toUpperCase()),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(acceptButton.toUpperCase()),
             onPressed: () {
-              if (onAccept != null) {
-                onAccept();
-              }
+              onAccept?.call();
               Navigator.of(context).pop();
             },
           ),

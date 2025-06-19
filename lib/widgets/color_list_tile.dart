@@ -1,6 +1,7 @@
-// Copyright 2020 anaurelian. All rights reserved.
-// Use of this source code is governed by an MIT-style license that can be
-// found in the LICENSE file.
+// Copyright 2020-2025 Appliberated. All rights reserved.
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://www.appliberated.com/counterswithcolornames/license/.
 
 import 'package:flutter/material.dart';
 
@@ -10,14 +11,12 @@ class ColorListTile extends StatelessWidget {
   ///
   /// The [color] and [title] parameters must not be null.
   const ColorListTile({
-    Key key,
-    @required this.color,
-    @required this.title,
+    super.key,
+    required this.color,
+    required this.title,
     this.selected = false,
     this.onTap,
-  }) : assert(color != null),
-       assert(title != null),
-       super(key: key);
+  });
 
   /// The ARGB color value to fill the circular color swatch.
   final Color color;
@@ -29,7 +28,7 @@ class ColorListTile extends StatelessWidget {
   final bool selected;
 
   /// Called when the user taps this list tile.
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,7 @@ class ColorListTile extends StatelessWidget {
           color: color,
           border: color == Colors.white ? Border.all() : null,
         ),
-        title: Text(title, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color)),
+        title: Text(title, style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
         onTap: onTap,
       ),
     );
@@ -53,9 +52,12 @@ class _ColorFilledCircle extends StatelessWidget {
   /// Creates a circular widget filled with the specified [Color].
   ///
   /// The [color] parameter must not be null.
-  const _ColorFilledCircle({Key key, @required this.color, this.diameter = 40.0, this.border})
-    : assert(color != null),
-      super(key: key);
+  const _ColorFilledCircle({
+    super.key, // ignore: unused_element_parameter
+    required this.color,
+    this.diameter = 40.0, // ignore: unused_element_parameter
+    this.border,
+  });
 
   /// The color with which to fill the circle.
   final Color color;
@@ -64,7 +66,7 @@ class _ColorFilledCircle extends StatelessWidget {
   final double diameter;
 
   /// A border to draw above the background [color].
-  final BoxBorder border;
+  final BoxBorder? border;
 
   @override
   Widget build(BuildContext context) {

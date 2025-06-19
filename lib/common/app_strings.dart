@@ -1,6 +1,7 @@
-// Copyright 2020 anaurelian. All rights reserved.
-// Use of this source code is governed by an MIT-style license that can be
-// found in the LICENSE file.
+// Copyright 2020-2025 Appliberated. All rights reserved.
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://www.appliberated.com/counterswithcolornames/license/.
 
 import 'package:counters_with_color_names/screens/home.dart';
 
@@ -15,7 +16,7 @@ class AppStrings {
   static const Map<MenuAction, String> menuActions = {
     MenuAction.reset: 'Reset counter',
     MenuAction.share: 'Share...',
-    MenuAction.rate: 'Rate app',
+    MenuAction.star: 'Star app',
     MenuAction.help: 'Help',
   };
 
@@ -26,11 +27,6 @@ class AppStrings {
   static String shareText(String name, String value) => 'The $name is $value';
 
   static const String shareSubject = 'Your new PIN';
-
-  static const String rateAppURL =
-      'https://play.google.com/store/apps/details?id=world.helloing.counterswithcolornames';
-
-  static const String helpURL = 'https://helloing.world/counterswithcolornames/';
 
   //#endregion
 

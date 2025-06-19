@@ -1,23 +1,29 @@
-// Copyright 2020 anaurelian. All rights reserved.
-// Use of this source code is governed by an MIT-style license that can be
-// found in the LICENSE file.
+// Copyright 2020-2025 Appliberated. All rights reserved.
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://www.appliberated.com/counterswithcolornames/license/.
 
-import 'package:counters_with_color_names/common/app_strings.dart';
-import 'package:counters_with_color_names/models/counter.dart';
-import 'package:counters_with_color_names/utils/utils.dart';
-import 'package:counters_with_color_names/widgets/accept_cancel_dialog.dart';
-import 'package:counters_with_color_names/widgets/counter_display.dart';
-import 'package:counters_with_color_names/widgets/counters_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:share/share.dart';
+
+import 'package:share_plus/share_plus.dart';
+
+import '../common/app_strings.dart';
+import '../common/urls.dart' as urls;
+import '../models/counter.dart';
+import '../utils/utils.dart' as utils;
+import '../widgets/accept_cancel_dialog.dart';
+import '../widgets/counter_display.dart';
+import '../widgets/counters_drawer.dart';
 
 /// Overflow menu items enumeration.
-enum MenuAction { reset, share, rate, help }
+enum MenuAction { reset, share, star, help }
 
 /// The app home screen widget.
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 /// The logic and internal state for the app home screen widget.
@@ -46,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Navigator.pop(context);
   }
 
-  /// Performs the tasks of the popup menu items (reset, share, rate, and help).
+  /// Performs the tasks of the popup menu items (reset, share, star, and help).
   void popupMenuSelection(MenuAction item) {
     switch (item) {
       case MenuAction.reset:
@@ -62,16 +68,18 @@ class _HomeScreenState extends State<HomeScreen> {
       case MenuAction.share:
         // Share the current counter value using the platform's share sheet.
         final String name = _counters.current.name;
-        final String value = toDecimalString(context, _counters.current.value);
-        Share.share(AppStrings.shareText(name, value), subject: name);
+        final String value = utils.toDecimalString(context, _counters.current.value);
+        SharePlus.instance.share(
+          ShareParams(text: AppStrings.shareText(name, value), subject: name),
+        );
         break;
-      case MenuAction.rate:
-        // Launch the Google Play Store page to allow the user to rate the app
-        launchUrl(_scaffoldKey.currentState, AppStrings.rateAppURL);
+      case MenuAction.star:
+        // Launch the app GitHub page to allow the user to star the app
+        utils.launchUrlExternal(context, urls.starAppURL);
         break;
       case MenuAction.help:
         // Launch the app online help url
-        launchUrl(_scaffoldKey.currentState, AppStrings.helpURL);
+        utils.launchUrlExternal(context, urls.helpURL);
         break;
     }
   }
@@ -112,8 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
         .map(
           (item) => PopupMenuItem<MenuAction>(
             value: item,
-            child: Text(AppStrings.menuActions[item]),
             enabled: !(item == MenuAction.reset && _counters.current.value == 0),
+            child: Text(AppStrings.menuActions[item]!),
           ),
         )
         .toList();

@@ -1,17 +1,22 @@
-// Copyright 2020 anaurelian. All rights reserved.
-// Use of this source code is governed by an MIT-style license that can be
-// found in the LICENSE file.
+// Copyright 2020-2025 Appliberated. All rights reserved.
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://www.appliberated.com/counterswithcolornames/license/.
 
-import 'package:counters_with_color_names/models/counter.dart';
-import 'package:counters_with_color_names/widgets/color_list_tile.dart';
 import 'package:flutter/material.dart';
+
+import '../models/counter.dart';
+import 'color_list_tile.dart';
 
 /// A material design drawer that shows navigation links for all available counters.
 class CountersDrawer extends StatelessWidget {
   /// Creates a counters drawer widget.
-  const CountersDrawer({Key key, @required this.title, this.currentCounter, this.onSelected})
-    : assert(title != null),
-      super(key: key);
+  const CountersDrawer({
+    super.key,
+    required this.title,
+    required this.currentCounter,
+    this.onSelected,
+  });
 
   /// The title of the drawer displayed in the drawer header.
   final String title;
@@ -20,7 +25,7 @@ class CountersDrawer extends StatelessWidget {
   final CounterType currentCounter;
 
   /// Called when the user taps a drawer list tile.
-  final void Function(CounterType value) onSelected;
+  final void Function(CounterType value)? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +42,7 @@ class CountersDrawer extends StatelessWidget {
   Widget _buildDrawerHeader(BuildContext context) {
     return SizedBox(
       height: kToolbarHeight + 8.0,
-      child: DrawerHeader(child: Text(title, style: Theme.of(context).textTheme.headline6)),
+      child: DrawerHeader(child: Text(title, style: Theme.of(context).textTheme.titleLarge)),
     );
   }
 
@@ -46,9 +51,7 @@ class CountersDrawer extends StatelessWidget {
       color: Counter.colorOf(counterType),
       title: Counter.nameOf(counterType),
       selected: counterType == currentCounter,
-      onTap: () {
-        if (onSelected != null) onSelected(counterType);
-      },
+      onTap: () => onSelected?.call(counterType),
     );
   }
 }
