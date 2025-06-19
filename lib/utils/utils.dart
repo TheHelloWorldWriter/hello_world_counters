@@ -3,6 +3,9 @@
 // license that can be found in the LICENSE file or at
 // https://www.appliberated.com/counterswithcolornames/license/.
 
+/// Utility functions for the Counters with Color Names app.
+library;
+
 import 'package:flutter/material.dart';
 
 import 'package:url_launcher/url_launcher.dart';

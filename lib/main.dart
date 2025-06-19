@@ -13,7 +13,7 @@ void main() {
   runApp(const CountersWithColorNamesApp());
 }
 
-/// The app widget.
+/// The main application widget for Counters with Color Names.
 class CountersWithColorNamesApp extends StatelessWidget {
   const CountersWithColorNamesApp({super.key});
 
@@ -27,6 +27,7 @@ class CountersWithColorNamesApp extends StatelessWidget {
       theme: getAppTheme(Brightness.light),
       darkTheme: getAppTheme(Brightness.dark),
 
+      // The home screen of the app
       home: const HomeScreen(),
     );
   }

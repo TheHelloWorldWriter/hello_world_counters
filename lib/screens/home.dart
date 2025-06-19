@@ -16,7 +16,9 @@ import '../widgets/accept_cancel_dialog.dart';
 import '../widgets/counter_display.dart';
 import '../widgets/counters_drawer.dart';
 
-/// The app home screen widget.
+/// The home screen widget for the Counters with Color Names app.
+///
+/// This widget displays the current counter value and allows the user to interact with it.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 

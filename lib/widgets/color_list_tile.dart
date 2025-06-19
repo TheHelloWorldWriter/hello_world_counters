@@ -33,12 +33,14 @@ class ColorListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? Colors.black12 : null,
+      color: selected ? Theme.of(context).colorScheme.onPrimary.withAlpha(0x1F) : null,
       child: ListTile(
         selected: selected,
         leading: _ColorFilledCircle(
           color: color,
-          border: color == Colors.white ? Border.all() : null,
+          border: (color == Colors.white) || (color == Colors.black)
+              ? Border.all(color: Theme.of(context).colorScheme.onPrimary)
+              : null,
         ),
         title: Text(title, style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color)),
         onTap: onTap,

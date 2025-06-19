@@ -3,6 +3,9 @@
 // license that can be found in the LICENSE file or at
 // https://www.appliberated.com/counterswithcolornames/license/.
 
+/// Application wide theme configuration.
+library;
+
 import 'package:flutter/material.dart';
 
 /// Returns the app theme based on the brightness.
