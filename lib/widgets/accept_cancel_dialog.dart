@@ -13,27 +13,28 @@ void showAcceptCancelDialog(
   VoidCallback onAccept,
 ) {
   showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Text(message),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(cancelButton.toUpperCase()),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text(acceptButton.toUpperCase()),
-              onPressed: () {
-                if (onAccept != null) {
-                  onAccept();
-                }
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      });
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(cancelButton.toUpperCase()),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: Text(acceptButton.toUpperCase()),
+            onPressed: () {
+              if (onAccept != null) {
+                onAccept();
+              }
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

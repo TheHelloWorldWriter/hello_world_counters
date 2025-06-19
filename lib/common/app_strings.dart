@@ -39,5 +39,5 @@ class AppStrings {
   static const String incrementTooltip = 'Increment';
   static const String decrementTooltip = 'Decrement';
 
-//#endregion
+  //#endregion
 }

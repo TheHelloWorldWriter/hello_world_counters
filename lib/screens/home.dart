@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () => setState(() => _counters.current.increment()),
           tooltip: AppStrings.incrementTooltip,
           child: const Icon(Icons.add),
-        )
+        ),
       ],
     );
   }

@@ -58,4 +58,3 @@ extension ColorX on Color {
     return MaterialColor(value, swatch);
   }
 }
-

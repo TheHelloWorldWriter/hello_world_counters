@@ -9,13 +9,9 @@ import 'package:flutter/material.dart';
 /// A material design drawer that shows navigation links for all available counters.
 class CountersDrawer extends StatelessWidget {
   /// Creates a counters drawer widget.
-  const CountersDrawer({
-    Key key,
-    @required this.title,
-    this.currentCounter,
-    this.onSelected,
-  })  : assert(title != null),
-        super(key: key);
+  const CountersDrawer({Key key, @required this.title, this.currentCounter, this.onSelected})
+    : assert(title != null),
+      super(key: key);
 
   /// The title of the drawer displayed in the drawer header.
   final String title;
@@ -41,12 +37,7 @@ class CountersDrawer extends StatelessWidget {
   Widget _buildDrawerHeader(BuildContext context) {
     return SizedBox(
       height: kToolbarHeight + 8.0,
-      child: DrawerHeader(
-        child: Text(
-          title,
-          style: Theme.of(context).textTheme.headline6,
-        ),
-      ),
+      child: DrawerHeader(child: Text(title, style: Theme.of(context).textTheme.headline6)),
     );
   }
 

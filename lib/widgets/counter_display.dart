@@ -13,10 +13,10 @@ class CounterDisplay extends StatelessWidget {
     @required this.value,
     @required this.color,
     this.isPortrait = true,
-  })  : assert(value != null),
-        assert(color != null),
-        assert(isPortrait != null),
-        super(key: key);
+  }) : assert(value != null),
+       assert(color != null),
+       assert(isPortrait != null),
+       super(key: key);
 
   /// The color with which to fill the counter container.
   final Color color;
@@ -29,8 +29,9 @@ class CounterDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle counterStyle =
-        isPortrait ? Theme.of(context).textTheme.headline1 : Theme.of(context).textTheme.headline2;
+    final TextStyle counterStyle = isPortrait
+        ? Theme.of(context).textTheme.headline1
+        : Theme.of(context).textTheme.headline2;
 
     return Container(
       alignment: Alignment.center,

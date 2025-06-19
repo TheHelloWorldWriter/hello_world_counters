@@ -98,8 +98,7 @@ class Counter {
     CounterType.grey: Colors.grey,
   };
 
-//#endregion
-
+  //#endregion
 }
 
 /// Provides a map of counters for each counter type, and keeps a reference to the current counter.

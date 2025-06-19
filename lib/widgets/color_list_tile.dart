@@ -15,9 +15,9 @@ class ColorListTile extends StatelessWidget {
     @required this.title,
     this.selected = false,
     this.onTap,
-  })  : assert(color != null),
-        assert(title != null),
-        super(key: key);
+  }) : assert(color != null),
+       assert(title != null),
+       super(key: key);
 
   /// The ARGB color value to fill the circular color swatch.
   final Color color;
@@ -41,10 +41,7 @@ class ColorListTile extends StatelessWidget {
           color: color,
           border: color == Colors.white ? Border.all() : null,
         ),
-        title: Text(
-          title,
-          style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
-        ),
+        title: Text(title, style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color)),
         onTap: onTap,
       ),
     );
@@ -56,13 +53,9 @@ class _ColorFilledCircle extends StatelessWidget {
   /// Creates a circular widget filled with the specified [Color].
   ///
   /// The [color] parameter must not be null.
-  const _ColorFilledCircle({
-    Key key,
-    @required this.color,
-    this.diameter = 40.0,
-    this.border,
-  })  : assert(color != null),
-        super(key: key);
+  const _ColorFilledCircle({Key key, @required this.color, this.diameter = 40.0, this.border})
+    : assert(color != null),
+      super(key: key);
 
   /// The color with which to fill the circle.
   final Color color;
@@ -78,11 +71,7 @@ class _ColorFilledCircle extends StatelessWidget {
     return Container(
       width: diameter,
       height: diameter,
-      decoration: BoxDecoration(
-        color: color,
-        border: border,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, border: border, shape: BoxShape.circle),
     );
   }
 }
