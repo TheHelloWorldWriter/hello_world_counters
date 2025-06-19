@@ -26,9 +26,9 @@ Counters With Color Names is one of my first Hello World apps made with Flutter.
 
 [Flutter](https://flutter.dev) is an open source framework for building beautiful, natively compiled, multi-platform applications from a single codebase.
 
-## Screenshot
+## Screenshots
 
-<img width="270" src="repo-assets/counterswithcolornames-readme-screenshot-mobile.png" alt="Counters With Color Names screenshot">
+<img width="270" src="repo-assets/counterswithcolornames-android-phone-screenshot-red-counter.png" alt="Counters With Color Names - Android phone screenshot - Red counter"> <img width="270" src="repo-assets/counterswithcolornames-android-phone-screenshot-orange-counter.png" alt="Counters With Color Names - Android phone screenshot - Orange counter"> <img width="270" src="repo-assets/counterswithcolornames-android-phone-screenshot-app-drawer.png" alt="Counters With Color Names - Android phone screenshot - App drawer">
 
 ## Try Counters With Color Names
 
