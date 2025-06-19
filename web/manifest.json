@@ -1,11 +1,11 @@
 {
-    "name": "counters_with_color_names",
-    "short_name": "counters_with_color_names",
+    "name": "Counters With Color Names",
+    "short_name": "Counters With Color Names",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FFFFFF",
+    "theme_color": "#FFFFFF",
+    "description": "A simple tally counter app with a different counter for each of the 11 basic English color names. Count anything discreetly.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
