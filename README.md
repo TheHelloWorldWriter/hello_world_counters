@@ -1,3 +1,8 @@
+> [!NOTE]
+> **This repository has been archived and is no longer maintained.**
+>
+> This project has been rewritten and superseded by the **[Hello World Counters](https://github.com/Appliberated/hello_world_counters)** repository. Please visit the new repository for the latest code, updates, and support.
+
 # Counters With Color Names
 
 [![Version badge](https://img.shields.io/github/v/tag/Appliberated/counters_with_color_names?color=forestgreen&label=version)](https://github.com/Appliberated/counters_with_color_names/releases)
