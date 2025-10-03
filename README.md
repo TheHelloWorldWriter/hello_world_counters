@@ -70,13 +70,13 @@ Thank you for contributing! Hello World Counters is designed to be as simple and
 
 ## Legacy project
 
-A legacy version of the app, named **Counters With Color Names**, is still available in the [`counters_with_color_names`](https://github.com/TheHelloWorldWriter/hello_world_counters/tree/counters_with_color_names) branch.
+A legacy version of the app, named **Counters With Color Names**, is in the [`counters_with_color_names`](https://github.com/TheHelloWorldWriter/hello_world_counters/tree/counters_with_color_names) branch.
 
 The actively maintained **Hello World Counters** app is in the [`main`](https://github.com/TheHelloWorldWriter/hello_world_counters/tree/main) branch.
 
 ## Support me
 
-Hello World Counters is a free Hello World app, and I love creating and sharing projects like this and other useful [free apps](https://www.thehelloworldwriter.com/) with the community. If you want to support me, visit:
+Hello World Counters is a free Hello World app, and I love creating and sharing projects like this and other useful free apps with the community. If you want to support me, visit:
 
 **https://www.thehelloworldwriter.com/support-me/**
 
