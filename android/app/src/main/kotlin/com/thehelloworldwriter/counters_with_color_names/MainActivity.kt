@@ -1,4 +1,4 @@
-package com.appliberated.counters_with_color_names
+package com.thehelloworldwriter.counters_with_color_names
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -15,7 +15,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.appliberated.counters_with_color_names"
+    namespace = "com.thehelloworldwriter.counters_with_color_names"
     compileSdk = flutter.compileSdkVersion
     // ndkVersion = flutter.ndkVersion
     ndkVersion = "27.0.12077973"
@@ -30,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.appliberated.counters_with_color_names"
+        applicationId = "com.thehelloworldwriter.counters_with_color_names"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
