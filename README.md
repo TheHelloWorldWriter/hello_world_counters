@@ -31,6 +31,36 @@ Here are some screenshots of the app in action:
 * **On Android:** Get it from [GitHub Releases](https://github.com/TheHelloWorldWriter/hello_world_counters/releases).
 * **On any platform:** [Run the web app](https://helloworldcounters.thehelloworldwriter.com/) or install it directly from your browser on most modern operating systems, including Android, ChromeOS, iOS, Linux, macOS, and Windows.
 
+## Development
+
+These steps assume you have **Flutter ≥ 3.x** installed. See [flutter.dev/get-started](https://flutter.dev/get-started) for setup if needed.
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/TheHelloWorldWriter/hello_world_counters.git
+   cd hello_world_counters
+   ```
+
+2. **Switch to main branch**
+   ```bash
+   git checkout main
+   ```
+
+3. **Install dependencies**
+   ```bash
+   flutter pub get
+   ```
+
+4. **Run the app**
+   - **Web / PWA**
+     ```bash
+     flutter run -d chrome
+     ```
+   - **Android (emulator / device)**
+     ```bash
+     flutter run -d <device-id>
+     ```
+
 ## Contributing
 
 Thank you for contributing! Hello World Counters is designed to be as simple and useless as possible, but you can still help with:
