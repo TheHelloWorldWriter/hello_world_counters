@@ -15,6 +15,7 @@ import '../utils/utils.dart';
 class InspirationScreen extends StatelessWidget {
   const InspirationScreen({required this.counter, super.key});
 
+  /// The counter for which to show inspiration ideas.
   final Counter counter;
 
   @override
@@ -26,54 +27,67 @@ class InspirationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(strings.inspirationScreenTitle(colorName)),
         backgroundColor: counterColor,
         foregroundColor: textColor,
-        iconTheme: IconThemeData(color: textColor),
+        title: Text(strings.inspirationScreenTitle(colorName)),
       ),
-      body: ideas.isEmpty ? _buildEmptyState(colorName) : _buildIdeasList(ideas, counterColor),
+      body: ideas.isEmpty
+          ? _EmptyStateWidget(colorName: colorName)
+          : _IdeasListWidget(ideas: ideas, dotColor: counterColor),
     );
   }
+}
 
-  /// Builds the empty state when no ideas are available.
-  Widget _buildEmptyState(String colorName) {
+/// Widget that displays the empty state when no ideas are available.
+class _EmptyStateWidget extends StatelessWidget {
+  const _EmptyStateWidget({required this.colorName});
+
+  /// The name of the counter color.
+  final String colorName;
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.lightbulb_outline,
-              size: 64,
-              color: Colors.grey[400],
-            ),
+            Icon(Icons.lightbulb_outline, size: 64, color: Colors.grey[400]),
             const SizedBox(height: 16),
             Text(
               strings.noInspirationTitle(colorName),
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 18, color: Colors.grey[600]),
             ),
             const SizedBox(height: 8),
             Text(
               strings.noInspirationSubtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[500],
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey[500]),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  /// Builds the list of counting ideas.
-  Widget _buildIdeasList(List<String> ideas, Color counterColor) {
+/// Widget that displays the list of counting ideas.
+class _IdeasListWidget extends StatelessWidget {
+  const _IdeasListWidget({
+    required this.ideas,
+    required this.dotColor,
+  });
+
+  /// The list of ideas to display.
+  final List<String> ideas;
+
+  /// The color of the leading dot for each idea.
+  final Color dotColor;
+
+  @override
+  Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 16),
       children: [
@@ -82,26 +96,36 @@ class InspirationScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: Text(
             strings.inspirationHeader,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-              fontStyle: FontStyle.italic,
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600], fontStyle: FontStyle.italic),
           ),
         ),
         // Ideas list
-        ...ideas.map(
-          (idea) => ListTile(
-            leading: Icon(
-              Icons.circle,
-              size: 12,
-              color: counterColor,
-            ),
-            title: Text(idea),
-            visualDensity: VisualDensity.comfortable,
-          ),
-        ),
+        ...ideas.map((idea) => _IdeaListItem(idea: idea, dotColor: dotColor)),
       ],
+    );
+  }
+}
+
+/// Widget that displays a single idea list item with a colored dot.
+class _IdeaListItem extends StatelessWidget {
+  const _IdeaListItem({
+    required this.idea,
+    required this.dotColor,
+  });
+
+  /// The text of the idea.
+  final String idea;
+
+  /// The color of the leading dot.
+  final Color dotColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      visualDensity: VisualDensity.comfortable,
+      // minLeadingWidth: 20.0,
+      leading: Icon(Icons.circle, size: 12.0, color: dotColor),
+      title: Text(idea),
     );
   }
 }
