@@ -17,6 +17,7 @@ import '../utils/utils.dart';
 import '../widgets/accept_cancel_dialog.dart';
 import '../widgets/counter_display.dart';
 import '../widgets/counters_drawer.dart';
+import 'inspiration_screen.dart';
 import 'settings_screen.dart';
 
 /// Overflow menu items enumeration.
@@ -142,6 +143,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return AppBar(
       title: Text(_counters.current.name),
       actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.lightbulb_outline),
+          tooltip: 'Inspiration',
+          onPressed: () => utils.navigateToScreen(
+            context,
+            InspirationScreen(counter: _counters.current),
+          ),
+        ),
         PopupMenuButton<MenuAction>(
           onSelected: popupMenuSelection,
           itemBuilder: _buildMenuItems,
