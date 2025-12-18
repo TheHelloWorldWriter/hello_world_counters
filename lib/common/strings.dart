@@ -7,7 +7,7 @@
 /// App wide UI string constants.
 library;
 
-import '../screens/home.dart';
+import '../screens/home_screen.dart';
 
 const String appName = 'Hello World Counters';
 

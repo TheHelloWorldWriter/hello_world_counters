@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 
 import 'common/strings.dart' as strings;
-import 'screens/home.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const HelloWorldCountersApp());

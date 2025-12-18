@@ -43,7 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: ListView(
             children: <Widget>[
               SwitchListTile(
-                activeColor: Colors.black,
+                activeThumbColor: Colors.black,
                 value: widget.appSettings.counterTapMode,
                 title: const Text(strings.counterTapModeTitle),
                 subtitle: const Text(strings.counterTapModeSubtitle),
