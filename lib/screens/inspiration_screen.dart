@@ -12,18 +12,34 @@ import '../models/counter.dart';
 import '../utils/utils.dart';
 
 /// Screen that displays inspiration ideas for counting with a specific counter color.
-class InspirationScreen extends StatelessWidget {
+class InspirationScreen extends StatefulWidget {
   const InspirationScreen({required this.counter, super.key});
 
   /// The counter for which to show inspiration ideas.
   final Counter counter;
 
   @override
+  State<InspirationScreen> createState() => _InspirationScreenState();
+}
+
+/// The logic and internal state for the inspiration screen widget.
+class _InspirationScreenState extends State<InspirationScreen> {
+  /// The shuffled list of ideas to display.
+  late List<String> _shuffledIdeas;
+
+  @override
+  void initState() {
+    super.initState();
+    // Shuffle ideas once when the screen is created
+    _shuffledIdeas = List.from(counterIdeas[widget.counter.type] ?? [])..shuffle();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final List<String> ideas = counterIdeas[counter.type] ?? [];
-    final Color counterColor = counter.color;
+    final Color counterColor = widget.counter.color;
     final Color textColor = counterColor.contrastOf();
-    final String colorName = counter.type.name[0].toUpperCase() + counter.type.name.substring(1);
+    final String colorName =
+        widget.counter.type.name[0].toUpperCase() + widget.counter.type.name.substring(1);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,9 +47,9 @@ class InspirationScreen extends StatelessWidget {
         foregroundColor: textColor,
         title: Text(strings.inspirationScreenTitle(colorName)),
       ),
-      body: ideas.isEmpty
+      body: _shuffledIdeas.isEmpty
           ? _EmptyStateWidget(colorName: colorName)
-          : _IdeasListWidget(ideas: ideas, dotColor: counterColor),
+          : _IdeasListWidget(ideas: _shuffledIdeas, dotColor: counterColor),
     );
   }
 }
