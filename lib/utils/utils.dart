@@ -15,6 +15,15 @@ String toDecimalString(BuildContext context, int number) {
   return localizations.formatDecimal(number);
 }
 
+/// Navigates to the given screen widget.
+Future<T?> navigateToScreen<T>(BuildContext context, Widget screen) {
+  return Navigator.of(context).push<T>(
+    MaterialPageRoute<T>(
+      builder: (context) => screen,
+    ),
+  );
+}
+
 /// Launches the specified [URL] in the mobile platform, using the default external application.
 ///
 /// Shows an error [SnackBar] if there is no support for launching the URL.

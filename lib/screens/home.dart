@@ -12,6 +12,7 @@ import '../common/app_settings.dart';
 import '../common/strings.dart' as strings;
 import '../common/urls.dart' as urls;
 import '../models/counter.dart';
+import '../utils/utils.dart' as utils;
 import '../utils/utils.dart';
 import '../widgets/accept_cancel_dialog.dart';
 import '../widgets/counter_display.dart';
@@ -101,9 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Navigates to the Settings screen, and refreshes on return.
   Future<void> _loadSettingsScreen() async {
-    await Navigator.push<void>(
+    await utils.navigateToScreen<void>(
       context,
-      MaterialPageRoute(builder: (context) => SettingsScreen(appSettings: _appSettings)),
+      SettingsScreen(appSettings: _appSettings),
     );
     setState(() {
       /* Refresh after returning from Settings screen. */
