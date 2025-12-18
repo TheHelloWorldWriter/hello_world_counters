@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../common/strings.dart' as strings;
 import '../data/counter_ideas.dart';
 import '../models/counter.dart';
 import '../utils/utils.dart';
@@ -25,7 +26,7 @@ class InspirationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$colorName Inspiration'),
+        title: Text(strings.inspirationScreenTitle(colorName)),
         backgroundColor: counterColor,
         foregroundColor: textColor,
         iconTheme: IconThemeData(color: textColor),
@@ -49,7 +50,7 @@ class InspirationScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'No inspiration ideas yet for $colorName.',
+              strings.noInspirationTitle(colorName),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -58,7 +59,7 @@ class InspirationScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Use this counter for anything you\'d like!',
+              strings.noInspirationSubtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -80,7 +81,7 @@ class InspirationScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: Text(
-            'Running out of ideas? Try counting these:',
+            strings.inspirationHeader,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[600],

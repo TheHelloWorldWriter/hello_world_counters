@@ -11,9 +11,9 @@ import '../screens/home_screen.dart';
 
 const String appName = 'Hello World Counters';
 
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // App Drawer
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 const String drawerTitle = appName;
 const String settingsItemTitle = 'Settings';
@@ -32,18 +32,27 @@ const String resetConfirmCancel = 'Cancel';
 
 String shareText(String name, String value) => 'The $name is $value';
 
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Home Screen - Main
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 const String incrementTooltip = 'Increment';
 const String incrementHeroTag = 'incrementHeroTag';
 const String decrementTooltip = 'Decrement';
 const String decrementHeroTag = 'decrementHeroTag';
 
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// Inspiration Screen
+// -----------------------------------------------------------------------------
+
+String inspirationScreenTitle(String name) => '$name Inspiration';
+const String inspirationHeader = 'Running out of ideas? Try counting these:';
+String noInspirationTitle(String name) => 'No inspiration ideas yet for $name.';
+const String noInspirationSubtitle = 'Use this counter for anything you\'d like!';
+
+// -----------------------------------------------------------------------------
 // Settings Screen
-// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 const String settingsTitle = 'Settings';
 const String counterTapModeTitle = 'Counter tap mode';
