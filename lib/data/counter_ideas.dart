@@ -281,7 +281,7 @@ const Map<CounterType, List<String>> counterIdeas = {
     'Fires I had to put out at work (metaphorically)',
     'Orange juice glasses consumed with breakfast',
   ],
-  CounterType.grey: [
+  CounterType.gray: [
     // --- VISUAL (Weather, City, Nature) ---
     'Rainy days where I just stayed inside',
     'Pigeons that refused to move out of my way',

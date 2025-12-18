@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Counter (color) types.
-enum CounterType { black, white, red, green, yellow, blue, brown, purple, pink, orange, grey }
+enum CounterType { black, white, red, green, yellow, blue, brown, purple, pink, orange, gray }
 
 /// An integer counter class.
 class Counter {
@@ -87,7 +87,7 @@ class Counter {
     CounterType.purple: Colors.purple,
     CounterType.pink: Colors.pink,
     CounterType.orange: Colors.orange,
-    CounterType.grey: Colors.grey,
+    CounterType.gray: Colors.grey,
   };
 }
 

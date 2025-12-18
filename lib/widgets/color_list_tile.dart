@@ -29,7 +29,7 @@ class ColorListTile extends StatelessWidget {
   /// The additional text content displayed below the title.
   final String subtitle;
 
-  /// This color list tile is currently selected, and will be rendered with a grey background.
+  /// This color list tile is currently selected, and will be rendered with a gray background.
   final bool selected;
 
   /// Called when the user taps this list tile.
