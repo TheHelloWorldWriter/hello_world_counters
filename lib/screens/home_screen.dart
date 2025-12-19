@@ -13,7 +13,6 @@ import '../common/strings.dart' as strings;
 import '../common/urls.dart' as urls;
 import '../models/counter.dart';
 import '../utils/utils.dart' as utils;
-import '../utils/utils.dart';
 import '../widgets/accept_cancel_dialog.dart';
 import '../widgets/counter_display.dart';
 import '../widgets/counters_drawer.dart';
@@ -74,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case MenuAction.share:
         // Share the current counter value using the platform's share sheet.
         final name = _counters.current.name;
-        final value = toDecimalString(context, _counters.current.value);
+        final value = utils.toDecimalString(context, _counters.current.value);
         SharePlus.instance.share(ShareParams(text: strings.shareText(name, value), subject: name));
         break;
     }
@@ -88,15 +87,15 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case DrawerExtraActions.about:
         // Open the app's about page
-        launchUrlExternal(context, urls.aboutUrl);
+        utils.launchUrlExternal(context, urls.aboutUrl);
         break;
       case DrawerExtraActions.starApp:
         // Open the app source code repo url on GitHub to allow the user to star it
-        launchUrlExternal(context, urls.starAppUrl);
+        utils.launchUrlExternal(context, urls.starAppUrl);
         break;
       case DrawerExtraActions.rateApp:
         // Open the app's rate page
-        launchUrlExternal(context, urls.rateAppUrl);
+        utils.launchUrlExternal(context, urls.rateAppUrl);
         break;
     }
   }
