@@ -124,7 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: _AppBar(
+        counters: _counters,
+        popupMenuSelection: popupMenuSelection,
+      ),
       drawer: _buildDrawer(),
       body: _appSettings.counterTapMode
           ? GestureDetector(
@@ -133,43 +136,14 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           : counterDisplay,
       floatingActionButton: !(_appSettings.counterTapMode)
-          ? _buildFABs(isPortrait, isLargeScreen)
+          ? _HomeFabs(
+              isPortrait: isPortrait,
+              isLargeScreen: isLargeScreen,
+              onIncrement: () => setState(() => _counters.current.increment()),
+              onDecrement: () => setState(() => _counters.current.decrement()),
+            )
           : null,
     );
-  }
-
-  /// Builds the app bar with the popup menu items.
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text(_counters.current.name),
-      actions: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.lightbulb_outline),
-          tooltip: 'Inspiration',
-          onPressed: () => utils.navigateToScreen(
-            context,
-            InspirationScreen(counter: _counters.current),
-          ),
-        ),
-        PopupMenuButton<MenuAction>(
-          onSelected: popupMenuSelection,
-          itemBuilder: _buildMenuItems,
-        ),
-      ],
-    );
-  }
-
-  /// Builds the popup menu items for the app bar.
-  List<PopupMenuItem<MenuAction>> _buildMenuItems(BuildContext context) {
-    return MenuAction.values
-        .map(
-          (item) => PopupMenuItem<MenuAction>(
-            value: item,
-            enabled: !(item == MenuAction.reset && _counters.current.value == 0),
-            child: Text(strings.menuActions[item]!),
-          ),
-        )
-        .toList();
   }
 
   /// Builds the main drawer that lets the user switch between color counters.
@@ -181,9 +155,33 @@ class _HomeScreenState extends State<HomeScreen> {
       onExtraSelected: _onDrawerExtraSelected,
     );
   }
+}
 
-  /// Builds the two main floating action buttons for increment and decrement.
-  Widget _buildFABs(bool isPortrait, bool isLargeScreen) {
+/// Floating action buttons for increment and decrement.
+class _HomeFabs extends StatelessWidget {
+  const _HomeFabs({
+    // ignore: unused_element_parameter
+    super.key,
+    required this.isPortrait,
+    required this.isLargeScreen,
+    required this.onIncrement,
+    required this.onDecrement,
+  });
+
+  /// Are we in portrait "mode"?
+  final bool isPortrait;
+
+  /// Is the device a large screen (tablet/desktop)?
+  final bool isLargeScreen;
+
+  /// Callback for increment action.
+  final void Function()? onIncrement;
+
+  /// Callback for decrement action.
+  final void Function()? onDecrement;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       // We're giving the FABs a bit more breathing room on larger screens
       padding: isLargeScreen
@@ -195,14 +193,14 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           FloatingActionButton.large(
             heroTag: strings.decrementHeroTag,
-            onPressed: () => setState(() => _counters.current.decrement()),
+            onPressed: onDecrement,
             tooltip: strings.decrementTooltip,
             child: const Icon(Icons.remove),
           ),
           isPortrait ? const SizedBox(height: 16.0) : const SizedBox(width: 16.0),
           FloatingActionButton.large(
             heroTag: strings.incrementHeroTag,
-            onPressed: () => setState(() => _counters.current.increment()),
+            onPressed: onIncrement,
             tooltip: strings.incrementTooltip,
             child: const Icon(Icons.add),
           ),
@@ -210,4 +208,52 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+/// App bar widget for the home screen.
+class _AppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _AppBar({
+    // ignore: unused_element_parameter
+    super.key,
+    required this.counters,
+    required this.popupMenuSelection,
+  });
+
+  /// The counters manager.
+  final Counters counters;
+
+  /// The popup menu item selection handler.
+  final void Function(MenuAction) popupMenuSelection;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(counters.current.name),
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.lightbulb_outline),
+          tooltip: 'Inspiration',
+          onPressed: () => utils.navigateToScreen(
+            context,
+            InspirationScreen(counter: counters.current),
+          ),
+        ),
+        PopupMenuButton<MenuAction>(
+          onSelected: popupMenuSelection,
+          itemBuilder: (context) => MenuAction.values
+              .map(
+                (item) => PopupMenuItem<MenuAction>(
+                  value: item,
+                  enabled: !(item == MenuAction.reset && counters.current.value == 0),
+                  child: Text(strings.menuActions[item]!),
+                ),
+              )
+              .toList(),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
