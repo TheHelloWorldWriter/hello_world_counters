@@ -5,11 +5,12 @@
 // that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../common/strings.dart' as strings;
 import '../data/counter_ideas.dart';
 import '../models/counter.dart';
-import '../utils/utils.dart';
+import '../utils/utils.dart' as utils;
 
 /// Screen that displays inspiration ideas for counting with a specific counter color.
 class InspirationScreen extends StatefulWidget {
@@ -74,13 +75,16 @@ class _EmptyStateWidget extends StatelessWidget {
             Text(
               strings.noInspirationTitle(colorName),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontSize: 18.0,
+                color: Colors.grey[600],
+              ),
             ),
             const SizedBox(height: 8),
             Text(
               strings.noInspirationSubtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.grey[500]),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey[500]),
             ),
           ],
         ),
@@ -112,7 +116,10 @@ class _IdeasListWidget extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: Text(
             strings.inspirationHeader,
-            style: TextStyle(fontSize: 14, color: Colors.grey[600], fontStyle: FontStyle.italic),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.grey[600],
+              fontStyle: FontStyle.italic,
+            ),
           ),
         ),
         // Ideas list
@@ -135,17 +142,23 @@ class _IdeaListItem extends StatelessWidget {
   /// The color of the leading dot.
   final Color dotColor;
 
+  /// Handles long press to copy the idea to clipboard.
+  void _onLongPress(BuildContext context) {
+    Clipboard.setData(ClipboardData(text: idea));
+    utils.showSnackBar(context, strings.ideaCopied);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
       visualDensity: .comfortable,
-      // visualDensity: .compact,
       minLeadingWidth: 20.0,
       leading: Icon(Icons.circle, size: 12.0, color: dotColor),
       title: Text(
         idea,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 15.0),
       ),
+      onLongPress: () => _onLongPress(context),
     );
   }
 }

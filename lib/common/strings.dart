@@ -49,6 +49,7 @@ String inspirationScreenTitle(String name) => '$name Inspiration';
 const String inspirationHeader = 'Running out of ideas? Try counting these:';
 String noInspirationTitle(String name) => 'No inspiration ideas yet for $name.';
 const String noInspirationSubtitle = 'Use this counter for anything you\'d like!';
+const String ideaCopied = 'Idea copied to clipboard!';
 
 // -----------------------------------------------------------------------------
 // Settings Screen

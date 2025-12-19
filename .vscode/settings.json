@@ -14,5 +14,4 @@
     ],
   },
   "dart.lineLength": 100,
-  "dart.mcpServer": true,
 }
