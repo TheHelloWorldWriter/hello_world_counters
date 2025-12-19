@@ -161,21 +161,40 @@ class _IdeaListItem extends StatelessWidget {
         visualDensity: .compact,
         tooltip: strings.ideaCopyTooltip,
         onPressed: () => _onDotPress(context),
-        icon: Container(
-          width: 12.0,
-          height: 12.0,
-          decoration: BoxDecoration(
-            color: dotColor,
-            shape: BoxShape.circle,
-            border: utils.needsBorder(dotColor, context)
-                ? Border.all(color: Colors.grey, width: 1.0)
-                : null,
-          ),
-        ),
+        icon: _ColorDot(color: dotColor),
       ),
       title: Text(
         idea,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 15.0),
+      ),
+    );
+  }
+}
+
+/// A small circular dot filled with a specified [Color].
+///
+/// Adds a border if necessary for visibility against the current theme background.
+class _ColorDot extends StatelessWidget {
+  const _ColorDot({
+    // ignore: unused_element_parameter
+    super.key,
+    required this.color,
+  });
+
+  /// The color of the dot.
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 12.0,
+      height: 12.0,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+        border: utils.needsBorder(color, context)
+            ? Border.all(color: Colors.grey, width: 1.0)
+            : null,
       ),
     );
   }
