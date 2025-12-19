@@ -130,6 +130,8 @@ class _IdeasListWidget extends StatelessWidget {
 }
 
 /// Widget that displays a single idea list item with a colored dot.
+///
+/// Easter egg: Tap the colored dot to copy the idea text to clipboard.
 class _IdeaListItem extends StatelessWidget {
   const _IdeaListItem({
     required this.idea,
@@ -142,8 +144,8 @@ class _IdeaListItem extends StatelessWidget {
   /// The color of the leading dot.
   final Color dotColor;
 
-  /// Handles long press to copy the idea to clipboard.
-  void _onLongPress(BuildContext context) {
+  /// Handles tap on the dot to copy the idea to clipboard.
+  void _onDotPress(BuildContext context) {
     Clipboard.setData(ClipboardData(text: idea));
     utils.showSnackBar(context, strings.ideaCopied);
   }
@@ -151,14 +153,20 @@ class _IdeaListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: const .symmetric(horizontal: 8.0),
+      horizontalTitleGap: 8.0,
+      minLeadingWidth: 0.0,
       visualDensity: .comfortable,
-      minLeadingWidth: 20.0,
-      leading: Icon(Icons.circle, size: 12.0, color: dotColor),
+      leading: IconButton(
+        visualDensity: .compact,
+        tooltip: strings.ideaCopyTooltip,
+        onPressed: () => _onDotPress(context),
+        icon: Icon(Icons.circle, size: 12.0, color: dotColor),
+      ),
       title: Text(
         idea,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 15.0),
       ),
-      onLongPress: () => _onLongPress(context),
     );
   }
 }
