@@ -138,10 +138,14 @@ class _IdeaListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      visualDensity: VisualDensity.comfortable,
-      // minLeadingWidth: 20.0,
+      visualDensity: .comfortable,
+      // visualDensity: .compact,
+      minLeadingWidth: 20.0,
       leading: Icon(Icons.circle, size: 12.0, color: dotColor),
-      title: Text(idea),
+      title: Text(
+        idea,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 15.0),
+      ),
     );
   }
 }
