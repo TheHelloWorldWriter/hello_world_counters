@@ -49,25 +49,46 @@ class CountersDrawer extends StatelessWidget {
         selectedColor: Colors.black,
         child: ListView(
           children: <Widget>[
-            _buildDrawerHeader(context),
-            ...CounterType.values.map((type) => _buildCounterListTile(context, type)),
+            // The drawer header with just the drawer title
+            _DrawerHeader(title: title),
+
+            // The counter list tiles
+            ...CounterType.values.map(
+              (type) => ColorListTile(
+                color: Counter.colorOf(type),
+                title: Counter.nameOf(type),
+                subtitle: toDecimalString(context, counters[type].value),
+                selected: type == counters.current.type,
+                onTap: () => onSelected(type),
+              ),
+            ),
+
             const Divider(),
+
+            // The Settings drawer item
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text(strings.settingsItemTitle),
               onTap: () => _onExtraActionTap(context, DrawerExtraActions.settings),
             ),
+
+            // The About drawer item
             ListTile(
               leading: const Icon(Icons.help),
               title: const Text(strings.aboutItemTitle),
               onTap: () => _onExtraActionTap(context, DrawerExtraActions.about),
             ),
+
+            // The Star App drawer item
             ListTile(
               leading: const Icon(Icons.star),
               title: const Text(strings.starAppItemTitle),
               onTap: () => _onExtraActionTap(context, DrawerExtraActions.starApp),
             ),
+
             const Divider(),
+
+            // The Rate App drawer item
             ListTile(
               leading: const Icon(Icons.rate_review),
               title: const Text(strings.rateAppItemTitle),
@@ -78,8 +99,21 @@ class CountersDrawer extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildDrawerHeader(BuildContext context) {
+/// The drawer header widget that simply displays the drawer title.
+class _DrawerHeader extends StatelessWidget {
+  const _DrawerHeader({
+    // ignore: unused_element_parameter
+    super.key,
+    required this.title,
+  });
+
+  /// The title of the drawer.
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       height: kToolbarHeight + 8.0,
       child: DrawerHeader(
@@ -88,16 +122,6 @@ class CountersDrawer extends StatelessWidget {
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
-    );
-  }
-
-  Widget _buildCounterListTile(BuildContext context, CounterType counterType) {
-    return ColorListTile(
-      color: Counter.colorOf(counterType),
-      title: Counter.nameOf(counterType),
-      subtitle: toDecimalString(context, counters[counterType].value),
-      selected: counterType == counters.current.type,
-      onTap: () => onSelected(counterType),
     );
   }
 }
