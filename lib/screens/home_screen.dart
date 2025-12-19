@@ -151,6 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ? _HomeFabs(
               isPortrait: isPortrait,
               isLargeScreen: isLargeScreen,
+              counterColor: _counters.current.color,
               onIncrement: () => setState(() => _counters.current.increment()),
               onDecrement: () => setState(() => _counters.current.decrement()),
             )
@@ -166,6 +167,7 @@ class _HomeFabs extends StatelessWidget {
     super.key,
     required this.isPortrait,
     required this.isLargeScreen,
+    required this.counterColor,
     required this.onIncrement,
     required this.onDecrement,
   });
@@ -175,6 +177,9 @@ class _HomeFabs extends StatelessWidget {
 
   /// Is the device a large screen (tablet/desktop)?
   final bool isLargeScreen;
+
+  /// The counter color to use for determining FAB colors.
+  final Color counterColor;
 
   /// Callback for increment action.
   final void Function()? onIncrement;
@@ -187,6 +192,11 @@ class _HomeFabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    final needsCustomColor =
+        (brightness == Brightness.dark && counterColor == Colors.black) ||
+        (brightness == Brightness.light && counterColor == Colors.white);
+
     return Padding(
       // We're giving the FABs a bit more breathing room on larger screens
       padding: isLargeScreen
@@ -198,6 +208,8 @@ class _HomeFabs extends StatelessWidget {
         children: <Widget>[
           FloatingActionButton.large(
             heroTag: _decrementHeroTag,
+            backgroundColor: needsCustomColor ? counterColor.contrastOf() : null,
+            foregroundColor: needsCustomColor ? counterColor : null,
             onPressed: onDecrement,
             tooltip: strings.decrementTooltip,
             child: const Icon(Icons.remove),
@@ -205,6 +217,8 @@ class _HomeFabs extends StatelessWidget {
           isPortrait ? const SizedBox(height: 16.0) : const SizedBox(width: 16.0),
           FloatingActionButton.large(
             heroTag: _incrementHeroTag,
+            backgroundColor: needsCustomColor ? counterColor.contrastOf() : null,
+            foregroundColor: needsCustomColor ? counterColor : null,
             onPressed: onIncrement,
             tooltip: strings.incrementTooltip,
             child: const Icon(Icons.add),
