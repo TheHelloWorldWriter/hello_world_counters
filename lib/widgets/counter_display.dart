@@ -29,7 +29,7 @@ class CounterDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? counterStyle = isPortrait
+    final counterStyle = isPortrait
         ? Theme.of(context).textTheme.displayLarge
         : Theme.of(context).textTheme.displayMedium;
 

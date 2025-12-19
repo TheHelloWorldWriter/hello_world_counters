@@ -9,26 +9,26 @@ library;
 
 import '../screens/home_screen.dart';
 
-const String appName = 'Hello World Counters';
+const appName = 'Hello World Counters';
 
 // -----------------------------------------------------------------------------
 // App Drawer
 // -----------------------------------------------------------------------------
 
 const String drawerTitle = appName;
-const String settingsItemTitle = 'Settings';
-const String aboutItemTitle = 'About this Hello World app';
-const String starAppItemTitle = 'Star on GitHub';
-const String rateAppItemTitle = 'Rate app';
+const settingsItemTitle = 'Settings';
+const aboutItemTitle = 'About this Hello World app';
+const starAppItemTitle = 'Star on GitHub';
+const rateAppItemTitle = 'Rate app';
 
 const Map<MenuAction, String> menuActions = {
   MenuAction.reset: 'Reset counter',
   MenuAction.share: 'Share...',
 };
 
-const String resetConfirm = 'Reset counter to zero?';
-const String resetConfirmReset = 'Reset';
-const String resetConfirmCancel = 'Cancel';
+const resetConfirm = 'Reset counter to zero?';
+const resetConfirmReset = 'Reset';
+const resetConfirmCancel = 'Cancel';
 
 String shareText(String name, String value) => 'The $name is $value';
 
@@ -36,24 +36,24 @@ String shareText(String name, String value) => 'The $name is $value';
 // Home Screen - Main
 // -----------------------------------------------------------------------------
 
-const String incrementTooltip = 'Increment';
-const String decrementTooltip = 'Decrement';
+const incrementTooltip = 'Increment';
+const decrementTooltip = 'Decrement';
 
 // -----------------------------------------------------------------------------
 // Inspiration Screen
 // -----------------------------------------------------------------------------
 
 String inspirationScreenTitle(String name) => '$name Inspiration';
-const String inspirationHeader = 'Running out of ideas? Try counting these:';
+const inspirationHeader = 'Running out of ideas? Try counting these:';
 String noInspirationTitle(String name) => 'No inspiration ideas yet for $name.';
-const String noInspirationSubtitle = 'Use this counter for anything you\'d like!';
-const String ideaCopied = 'Idea copied to clipboard!';
-const String ideaCopyTooltip = 'Tap to copy idea';
+const noInspirationSubtitle = 'Use this counter for anything you\'d like!';
+const ideaCopied = 'Idea copied to clipboard!';
+const ideaCopyTooltip = 'Tap to copy idea';
 
 // -----------------------------------------------------------------------------
 // Settings Screen
 // -----------------------------------------------------------------------------
 
-const String settingsTitle = 'Settings';
-const String counterTapModeTitle = 'Counter tap mode';
-const String counterTapModeSubtitle = 'Tap anywhere to increase counter';
+const settingsTitle = 'Settings';
+const counterTapModeTitle = 'Counter tap mode';
+const counterTapModeSubtitle = 'Tap anywhere to increase counter';

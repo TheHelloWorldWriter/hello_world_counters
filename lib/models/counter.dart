@@ -48,7 +48,7 @@ class Counter {
 
   /// Saves the counter value to persistent storage.
   Future<void> _saveValue() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    final preferences = await SharedPreferences.getInstance();
     await preferences.setInt(_counterKey(type), value);
   }
 
@@ -71,7 +71,7 @@ class Counter {
 
   /// Returns the name of the specified counter type (e.g. "Black Counter").
   static String nameOf(CounterType type) {
-    final String name = type.name;
+    final name = type.name;
     return '${name[0].toUpperCase()}${name.substring(1).toLowerCase()} Counter';
   }
 
@@ -95,16 +95,16 @@ class Counter {
 class Counters {
   /// Creates a Counters instance and creates the counter instances for all counter types.
   Counters() {
-    for (var type in CounterType.values) {
+    for (final type in CounterType.values) {
       _counters[type] = Counter(type);
     }
   }
 
   /// The persistent storage key where to keep the current counter type.
-  static const String currentCounterKey = 'current_counter';
+  static const currentCounterKey = 'current_counter';
 
   /// A map of counters for each counter type.
-  final Map<CounterType, Counter> _counters = <CounterType, Counter>{};
+  final _counters = <CounterType, Counter>{};
 
   /// The current counter type.
   CounterType _currentType = CounterType.blue;
@@ -123,20 +123,20 @@ class Counters {
 
   /// Saves the current counter type to persistent storage.
   Future<void> _saveCurrentType() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    final preferences = await SharedPreferences.getInstance();
     await preferences.setInt(currentCounterKey, _currentType.index);
   }
 
   /// Loads counter states from persistent storage.
   Future<void> load() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+    final preferences = await SharedPreferences.getInstance();
 
     /// Load the current counter type, or set the default Blue counter
-    final int counterIndex = preferences.getInt(currentCounterKey) ?? CounterType.blue.index;
+    final counterIndex = preferences.getInt(currentCounterKey) ?? CounterType.blue.index;
     _currentType = CounterType.values[counterIndex];
 
     /// Loads the values of all counters
-    for (var counterType in _counters.keys) {
+    for (final counterType in _counters.keys) {
       _counters[counterType]?.loadValue(preferences);
     }
   }

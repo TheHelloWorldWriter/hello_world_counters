@@ -8,10 +8,10 @@
 library;
 
 /// The app's home page URL.
-const String aboutUrl = 'https://www.thehelloworldwriter.com/helloworldcounters/';
+const aboutUrl = 'https://www.thehelloworldwriter.com/helloworldcounters/';
 
 /// The URL to the source code repository of the app.
-const String starAppUrl = 'https://github.com/TheHelloWorldWriter/hello_world_counters';
+const starAppUrl = 'https://github.com/TheHelloWorldWriter/hello_world_counters';
 
 /// The URL for rating the app (a redirect).
-const String rateAppUrl = 'https://www.thehelloworldwriter.com/helloworldcounters/rate/';
+const rateAppUrl = 'https://www.thehelloworldwriter.com/helloworldcounters/rate/';

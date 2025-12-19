@@ -34,10 +34,10 @@ class HomeScreen extends StatefulWidget {
 /// The logic and internal state for the app home screen widget.
 class _HomeScreenState extends State<HomeScreen> {
   /// The map of counters for each counter type.
-  final Counters _counters = Counters();
+  final _counters = Counters();
 
   /// The current app settings.
-  final AppSettings _appSettings = AppSettings();
+  final _appSettings = AppSettings();
 
   @override
   void initState() {
@@ -73,8 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case MenuAction.share:
         // Share the current counter value using the platform's share sheet.
-        final String name = _counters.current.name;
-        final String value = toDecimalString(context, _counters.current.value);
+        final name = _counters.current.name;
+        final value = toDecimalString(context, _counters.current.value);
         SharePlus.instance.share(ShareParams(text: strings.shareText(name, value), subject: name));
         break;
     }
@@ -114,10 +114,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isPortrait = MediaQuery.of(context).size.height >= 500;
-    final bool isLargeScreen = MediaQuery.of(context).size.longestSide >= 1024;
+    final isPortrait = MediaQuery.of(context).size.height >= 500;
+    final isLargeScreen = MediaQuery.of(context).size.longestSide >= 1024;
 
-    final CounterDisplay counterDisplay = CounterDisplay(
+    final counterDisplay = CounterDisplay(
       value: _counters.current.value,
       color: _counters.current.color,
       isPortrait: isPortrait,

@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// Formats [number] as a decimal, inserting locale-appropriate thousands separators as necessary.
 String toDecimalString(BuildContext context, int number) {
-  final MaterialLocalizations localizations = MaterialLocalizations.of(context);
+  final localizations = MaterialLocalizations.of(context);
   return localizations.formatDecimal(number);
 }
 

@@ -37,9 +37,9 @@ class _InspirationScreenState extends State<InspirationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Color counterColor = widget.counter.color;
-    final Color textColor = counterColor.contrastOf();
-    final String colorName =
+    final counterColor = widget.counter.color;
+    final textColor = counterColor.contrastOf();
+    final colorName =
         widget.counter.type.name[0].toUpperCase() + widget.counter.type.name.substring(1);
 
     return Scaffold(
