@@ -108,23 +108,26 @@ class _IdeasListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      children: [
-        // Header text
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-          child: Text(
-            strings.inspirationHeader,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.grey[600],
-              fontStyle: FontStyle.italic,
+      itemCount: ideas.length + 1, // +1 for header
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          // Header text
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            child: Text(
+              strings.inspirationHeader,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Colors.grey[600],
+                fontStyle: FontStyle.italic,
+              ),
             ),
-          ),
-        ),
-        // Ideas list
-        ...ideas.map((idea) => _IdeaListItem(idea: idea, dotColor: dotColor)),
-      ],
+          );
+        }
+        // Ideas list items
+        return _IdeaListItem(idea: ideas[index - 1], dotColor: dotColor);
+      },
     );
   }
 }
