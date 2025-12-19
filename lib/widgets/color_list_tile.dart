@@ -40,8 +40,9 @@ class ColorListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
+      color: selected ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.25) : null,
       child: ListTile(
+        selectedColor: Theme.of(context).colorScheme.onSurface,
         selected: selected,
         leading: _ColorFilledCircle(
           color: color,
