@@ -35,6 +35,18 @@ class HelloWorldCountersApp extends StatelessWidget {
           outlineVariant: Colors.grey.shade200,
         ),
       ),
+
+      darkTheme: ThemeData.from(
+        colorScheme: ColorScheme.dark(
+          primary: Colors.white,
+          surface: Colors.black,
+          onSurface: Colors.white,
+          surfaceTint: Colors.black,
+          primaryContainer: Colors.black,
+          onPrimaryContainer: Colors.white,
+          outlineVariant: Colors.grey.shade800,
+        ),
+      ),
       home: const HomeScreen(),
     );
   }

@@ -161,7 +161,17 @@ class _IdeaListItem extends StatelessWidget {
         visualDensity: .compact,
         tooltip: strings.ideaCopyTooltip,
         onPressed: () => _onDotPress(context),
-        icon: Icon(Icons.circle, size: 12.0, color: dotColor),
+        icon: Container(
+          width: 12.0,
+          height: 12.0,
+          decoration: BoxDecoration(
+            color: dotColor,
+            shape: BoxShape.circle,
+            border: utils.needsBorder(dotColor, context)
+                ? Border.all(color: Colors.grey, width: 1.0)
+                : null,
+          ),
+        ),
       ),
       title: Text(
         idea,

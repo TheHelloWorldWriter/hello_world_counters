@@ -6,6 +6,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../utils/utils.dart';
+
 /// A list tile that contains a leading circular color swatch and some text.
 class ColorListTile extends StatelessWidget {
   /// Creates a color list tile.
@@ -38,12 +40,12 @@ class ColorListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: selected ? Colors.black12 : null,
+      color: selected ? Theme.of(context).colorScheme.surfaceContainerHighest : null,
       child: ListTile(
         selected: selected,
         leading: _ColorFilledCircle(
           color: color,
-          border: color == Colors.white ? Border.all() : null,
+          border: needsBorder(color, context) ? Border.all(color: Colors.grey) : null,
         ),
         title: Text(title),
         subtitle: Text(subtitle),

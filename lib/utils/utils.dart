@@ -43,6 +43,23 @@ void showSnackBar(BuildContext context, String text) {
     ..showSnackBar(SnackBar(content: Text(text)));
 }
 
+/// Determines if a color needs a border to be visible against the current theme background.
+///
+/// Returns true if:
+/// - Dark mode and color is black (black on black background)
+/// - Light mode and color is white (white on white background)
+bool needsBorder(Color color, BuildContext context) {
+  final brightness = Theme.of(context).brightness;
+
+  if (brightness == Brightness.dark) {
+    // Dark mode: black colors need borders
+    return color == Colors.black;
+  } else {
+    // Light mode: white colors need borders
+    return color == Colors.white;
+  }
+}
+
 /// Utility Color extension methods.
 extension ColorX on Color {
   /// Returns the contrast color for this color.
