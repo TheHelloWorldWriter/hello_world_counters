@@ -37,9 +37,7 @@ String shareText(String name, String value) => 'The $name is $value';
 // -----------------------------------------------------------------------------
 
 const String incrementTooltip = 'Increment';
-const String incrementHeroTag = 'incrementHeroTag';
 const String decrementTooltip = 'Decrement';
-const String decrementHeroTag = 'decrementHeroTag';
 
 // -----------------------------------------------------------------------------
 // Inspiration Screen

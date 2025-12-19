@@ -124,17 +124,29 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     return Scaffold(
+      // The app bar with title, inspiration button and overflow menu
       appBar: _AppBar(
         counters: _counters,
         popupMenuSelection: popupMenuSelection,
       ),
-      drawer: _buildDrawer(),
+
+      // The counters drawer
+      drawer: CountersDrawer(
+        title: strings.drawerTitle,
+        counters: _counters,
+        onSelected: _onDrawerSelected,
+        onExtraSelected: _onDrawerExtraSelected,
+      ),
+
+      // The main body content with the counter display
       body: _appSettings.counterTapMode
           ? GestureDetector(
               onTap: () => setState(() => _counters.current.increment()),
               child: counterDisplay,
             )
           : counterDisplay,
+
+      // The increment and decrement floating action buttons
       floatingActionButton: !(_appSettings.counterTapMode)
           ? _HomeFabs(
               isPortrait: isPortrait,
@@ -143,16 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
               onDecrement: () => setState(() => _counters.current.decrement()),
             )
           : null,
-    );
-  }
-
-  /// Builds the main drawer that lets the user switch between color counters.
-  Widget _buildDrawer() {
-    return CountersDrawer(
-      title: strings.drawerTitle,
-      counters: _counters,
-      onSelected: _onDrawerSelected,
-      onExtraSelected: _onDrawerExtraSelected,
     );
   }
 }
@@ -180,6 +182,9 @@ class _HomeFabs extends StatelessWidget {
   /// Callback for decrement action.
   final void Function()? onDecrement;
 
+  static const _incrementHeroTag = 'incrementHeroTag';
+  static const _decrementHeroTag = 'decrementHeroTag';
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -192,14 +197,14 @@ class _HomeFabs extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton.large(
-            heroTag: strings.decrementHeroTag,
+            heroTag: _decrementHeroTag,
             onPressed: onDecrement,
             tooltip: strings.decrementTooltip,
             child: const Icon(Icons.remove),
           ),
           isPortrait ? const SizedBox(height: 16.0) : const SizedBox(width: 16.0),
           FloatingActionButton.large(
-            heroTag: strings.incrementHeroTag,
+            heroTag: _incrementHeroTag,
             onPressed: onIncrement,
             tooltip: strings.incrementTooltip,
             child: const Icon(Icons.add),
